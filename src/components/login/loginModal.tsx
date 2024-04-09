@@ -1,4 +1,3 @@
-import React from "react";
 import LoginHeart from "../../assets/heart.svg";
 import GoogleBtn from "../../assets/GoogleButton.svg";
 import * as styles from "./loginModal.styles";
