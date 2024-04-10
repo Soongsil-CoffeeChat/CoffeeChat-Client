@@ -3,6 +3,7 @@ import "./App.css";
 import Main from "./pages/main/main";
 import MyPage from "./pages/mypage/mypage";
 import Login from "./components/login/loginModal";
+import MyPage from "./pages/mypage/mypage";
 import styled from "styled-components";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           {/* 모달 확인용 임시 루트 */}
           <Route path="/login" element={<Login />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </Router>
     </Body>
