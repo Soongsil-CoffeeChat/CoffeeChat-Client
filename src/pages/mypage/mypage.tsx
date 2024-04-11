@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as styles from "./mypage.styles";
+import BackButton from '../../components/button/backButton'
 
 function MyPage() {
   const [activeButtons, setActiveButtons] = useState<string[]>([]);
@@ -13,8 +14,10 @@ function MyPage() {
   return (
     <styles.Container>
       <styles.HeaderContainer>
-        <styles.ProfileButton>
-        </styles.ProfileButton>
+        <styles.ButtonContainer>
+          <BackButton alignSelf="start"/>
+        </styles.ButtonContainer>
+        <styles.ProfileButton/>
       </styles.HeaderContainer>
       <styles.BodyContainer>
         <styles.BodyContentContainer>

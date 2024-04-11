@@ -4,6 +4,7 @@ export const Container = styled.div``;
 
 export const HeaderContainer = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 10px;
   height: 20vh; // 전체 화면 높이를 차지하도록 설정
   justify-content: center;
@@ -62,6 +63,17 @@ export const ProfileButton = styled.div`
   border-radius: 50%; // 완벽한 원을 만들기 위해 border-radius를 50%로 설정
   background-color: white; // 배경색을 흰색으로 설정
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: flex-start; /* 상단 정렬 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  height: 10%; /* 필요한 경우 높이 설정 */
+  width: 100%; /* 필요한 경우 너비 설정 */
+
+
+`
+
 
 
 
