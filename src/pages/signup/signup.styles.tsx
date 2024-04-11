@@ -31,6 +31,7 @@ export const EmailText = styled.div`
   margin-bottom: 5px;
   font-size: 20px;
   color: #000000;
+  outline: none;
 `;
 
 export const EmailContainer = styled.div`
@@ -47,6 +48,7 @@ export const EmailInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  outline: none;
 `;
 
 export const EmailSelect = styled.select`
@@ -57,6 +59,7 @@ export const EmailSelect = styled.select`
   background-color: white;
   color: #666666;
   height: 100%;
+  outline: none;
 `;
 
 export const EmailReceiveBtn = styled.button`
@@ -87,6 +90,7 @@ export const NicknameInput = styled.input`
   border: none;
   padding: 12px 15px;
   margin-left: 5px;
+  outline: none;
 `;
 
 export const NicknameBtn = styled.button`
