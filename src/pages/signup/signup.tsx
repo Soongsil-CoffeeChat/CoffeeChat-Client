@@ -28,6 +28,10 @@ function SignUp() {
     navigate("/login");
   };
 
+  const goToHome = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     // 클릭한 분야 변경 시 데이터 가져오기
   }, [activeButton]);
@@ -108,7 +112,7 @@ function SignUp() {
               ))}
             </styles.FieldButtonContainer>
           </styles.FieldContainer>
-          <styles.StartBtn>시작하기</styles.StartBtn>
+          <styles.StartBtn onClick={goToHome}>시작하기</styles.StartBtn>
         </styles.InputContainer>
       </styles.Container>
     </>
