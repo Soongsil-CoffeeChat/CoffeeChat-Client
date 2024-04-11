@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Main from "./pages/main/main";
 import Login from "./components/login/loginModal";
+import SignUp from "./pages/signup/signup";
 import styled from "styled-components";
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/signup" element={<SignUp />} />
+
           {/* 모달 확인용 임시 루트 */}
           <Route path="/login" element={<Login />} />
         </Routes>
