@@ -47,7 +47,8 @@ function Main() {
             <styles.HeaderButton
               key={buttonName}
               active={activeButtons.includes(buttonName)}
-              onClick={() => handleButtonClick(buttonName)}>
+              onClick={() => handleButtonClick(buttonName)}
+            >
               {buttonName}
             </styles.HeaderButton>
           ))}

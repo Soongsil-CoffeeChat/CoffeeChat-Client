@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Main from "./pages/main/main";
 import Login from "./components/login/loginModal";
+import SignUp from "./pages/signup/signup";
 import styled from "styled-components";
 import MyPage from "./pages/mypage/mypage";
-
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          {/* 모달 확인용 임시 루트 */}
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<MyPage />} />
         </Routes>
