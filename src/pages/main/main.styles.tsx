@@ -63,7 +63,7 @@ export const BodyContainer = styled.div`
 
 export const BodyProfile = styled.div`
   flex: 4.5;
-
+  border-radius: 13px 13px 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
