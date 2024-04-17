@@ -6,7 +6,8 @@ export const Container = styled.div`
 
 export const HeaderContainer = styled.div`
   display: block;
-  margin: 10px;
+  margin-bottom: 1rem;
+  padding-top: 10px;
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 `;
@@ -55,6 +56,7 @@ export const HeaderProfileButton = styled.div<HeaderButtonProps>`
 
 export const BodyContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   height: 80%;
 `;
