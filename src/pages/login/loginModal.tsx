@@ -2,6 +2,8 @@ import LoginHeart from "../../assets/heart.svg";
 import GoogleBtn from "../../assets/GoogleButton.svg";
 import * as styles from "./loginModal.styles";
 
+// 로그인 모달
+
 const LoginModal = () => {
   return (
     <styles.ModalBackdrop>
