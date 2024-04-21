@@ -1,6 +1,6 @@
 import LoginHeart from "../../assets/heart.svg";
 import GoogleBtn from "../../assets/GoogleButton.svg";
-import * as styles from "./loginModal.styles";
+import * as styles from "./login.styles";
 
 // 로그인 모달
 
