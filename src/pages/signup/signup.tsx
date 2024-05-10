@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, ChangeEvent, useEffect } from "react";
 import LeftArrow from "../../assets/ArrowLeft.svg";
+import BlackLine from "../../assets/BlackLine.svg";
 import * as styles from "./signup.styles";
 
 // 회원가입 페이지
@@ -9,6 +10,7 @@ function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [domain, setDomain] = useState<string>("직접입력");
+  const [code, setCode] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [activeButton, setActiveButton] = useState<string>("");
 
@@ -18,6 +20,10 @@ function SignUp() {
 
   const handleDomainChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setDomain(event.target.value);
+  };
+
+  const handleCodehange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCode(event.target.value);
   };
 
   const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +68,7 @@ function SignUp() {
           <styles.HeaderTitle>
             <styles.EmailText>이메일</styles.EmailText>
             <styles.HeaderText>
-              (해당 메일로 안내 메일이 갑니다)
+              이메일(해당 메일로 안내 메일이 갑니다)
             </styles.HeaderText>
           </styles.HeaderTitle>
           <styles.EmailContainer>
@@ -73,7 +79,6 @@ function SignUp() {
               value={email}
               onChange={handleEmailChange}
             />
-
             <styles.EmailSelect value={domain} onChange={handleDomainChange}>
               <option value="@self">직접입력</option>
               <option value="@gmail.com">@gmail.com</option>
@@ -86,6 +91,22 @@ function SignUp() {
           <styles.EmailReceiveBtn>이메일 받기</styles.EmailReceiveBtn>
           <styles.NicknameInputContainer>
             <styles.NicknameInput
+              type="code"
+              name="code"
+              placeholder="인증번호 입력해주세요."
+              value={code}
+              onChange={handleCodehange}
+            />
+            <styles.NicknameBtn>확인</styles.NicknameBtn>
+          </styles.NicknameInputContainer>
+          <styles.BlackLine>
+            <img src={BlackLine} alt="BlackLine" />
+          </styles.BlackLine>
+          <styles.HeaderTitle>
+            <styles.NicknameTitle>닉네임</styles.NicknameTitle>
+          </styles.HeaderTitle>
+          <styles.NicknameInputContainer>
+            <styles.NicknameInput
               type="nickname"
               name="nickname"
               placeholder="닉네임을 입력해주세요."
@@ -94,6 +115,9 @@ function SignUp() {
             />
             <styles.NicknameBtn>확인</styles.NicknameBtn>
           </styles.NicknameInputContainer>
+          <styles.BlackLine>
+            <img src={BlackLine} alt="BlackLine" />
+          </styles.BlackLine>
           <styles.FieldContainer>
             <styles.FieldText>
               나의 관심사 또는 희망하는
