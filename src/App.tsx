@@ -5,6 +5,7 @@ import Login from "./components/login/loginModal";
 import SignUp from "./pages/signup/signup";
 import styled from "styled-components";
 import MyPage from "./pages/mypage/mypage";
+import TimeSelect from "./pages/main/timeselect/timeselect";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/timeselect" element={<TimeSelect />} />
         </Routes>
       </Router>
     </Body>
