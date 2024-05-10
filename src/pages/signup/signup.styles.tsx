@@ -72,6 +72,12 @@ export const EmailReceiveBtn = styled.button`
   font-size: 15px;
 `;
 
+export const NicknameTitle = styled.div`
+  margin-top: 20px;
+  font-size: 20px;
+  color: #000000;
+`;
+
 export const NicknameInputContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -80,7 +86,7 @@ export const NicknameInputContainer = styled.div`
   background-color: white;
   border: 1px solid #02a6cb;
   border-radius: 7px;
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 
 export const NicknameInput = styled.input`
@@ -150,4 +156,8 @@ export const StartBtn = styled.div`
   font-size: 16px;
   color: white;
   cursor: pointer;
+`;
+
+export const BlackLine = styled.div`
+  margin-top: 5px;
 `;
