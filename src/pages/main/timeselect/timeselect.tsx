@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import * as styles from "./timeselect.styles";
 
 function TimeSelect() {
@@ -14,7 +14,25 @@ function TimeSelect() {
   const handleTimeSlotClick = (timeSlot: string) => {
     setSelectedTimeSlot(timeSlot); // 선택된 시간 슬롯 업데이트
   };
+  useEffect(() => {
+    const token = process.env.REACT_APP_TOKEN;
+    const url = `https://cogo.life/api/v1/mentor/possibleDates/{username}`;
 
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, []);
   return (
     <styles.Container>
       <styles.HeaderContainer>
