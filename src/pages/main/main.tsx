@@ -4,13 +4,20 @@ import { useNavigate } from "react-router-dom";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
 
+interface MentorData {
+  picture: string;
+  mentorName: string;
+  clubName: string[];
+  field: string;
+  username: string;
+}
+
 function Main() {
   const [activeButtons, setActiveButtons] = useState<string[]>([]);
-  const [translateX, setTranslateX] = useState(0);
+  const [mentorData, setMentorData] = useState<MentorData | null>(null);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const profiles = [
-    // 임시 프로필 데이터
     {
       title: "아픈건 딱 질색이니까",
       text: "오늘도 아침엔 입에 빵을 물고야 평온했던 하늘이 무너지고어둡던 눈앞이\
@@ -46,9 +53,32 @@ function Main() {
     },
   ];
 
+  useEffect(() => {}, [activeButtons]);
+
   useEffect(() => {
-    // 클릭한 분야 변경 시 데이터 가져오기
-  }, [activeButtons]);
+    const token = process.env.REACT_APP_TOKEN;
+    //
+    // process.env.REACT_APP_TOKEN;
+    const url = `https://cogo.run/api/v1/mentor/BE`;
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMentorData(data);
+        console.log(process.env.REACT_APP_TOKEN);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(process.env.REACT_APP_TOKEN);
+        console.error("Error:", error);
+      });
+  }, []);
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButtons((prev) => {
@@ -129,7 +159,6 @@ function Main() {
         <styles.BodyIntroduce>
           <styles.BodyIntroduceHeader>
             {profiles[currentIndex].title}
-            {/* {"아픈건 딱 질색이니까"} */}
           </styles.BodyIntroduceHeader>
           <styles.BodyIntroduceText>
             {profiles[currentIndex].text}
