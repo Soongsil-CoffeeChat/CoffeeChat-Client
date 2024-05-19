@@ -49,39 +49,42 @@ function SignUp() {
 
   const getEmailLink = () => {
     if (domain === "@self") {
-      return `https://cogo.run/auth/email?email=${email}`;
+      return `https://cogo.life/api/v1/email?email=${email}`;
     } else {
-      return `https://cogo.run/auth/email?email=${email}${domain}`;
+      return `https://cogo.life/api/v1/email?email=${email}${domain}`;
     }
   };
 
   const sendEmail = () => {
+    const token = process.env.REACT_APP_TOKEN;
     const link = getEmailLink();
-    axios
-      .get(link)
 
-      // fetch(link, {
-      //   method: "GET",
-      //   headers: { "Content-Type": "apllication/text" },
-      // })
+    axios
+      .get(link, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
-        console.log("이메일 전송 완료");
-        // response.json();
-        // response.text();
-        console.log(response);
+        console.log("이메일 전송 완료", response);
         const receivedCode = response.data;
-        if (code === receivedCode) {
-          localStorage.setItem("authCode", code);
-        } else {
-          alert("인증 코드가 일치하지 않습니다. 다시 시도해주세요.");
-        }
+        localStorage.setItem("authCode", receivedCode);
       })
       .catch((error) => {
         console.error("Error: ", error);
-        alert("이메일 전송에 실패했습니다. 다시 시도해주세요.");
+        alert("이메일 전송에 실패했습니다. 다시 시도해주세요 🥹");
       });
   };
 
+  const verifyCode = () => {
+    const savedCode = localStorage.getItem("authCode");
+    if (code === savedCode) {
+      alert("인증 성공!🙌🏻");
+    } else {
+      alert("인증 코드가 일치하지 않습니다. 다시 시도해주세요 🥹");
+    }
+  };
   return (
     <>
       <styles.Container>
@@ -127,16 +130,16 @@ function SignUp() {
           <styles.EmailReceiveBtn onClick={sendEmail}>
             이메일 받기
           </styles.EmailReceiveBtn>
-          <styles.NicknameInputContainer>
-            <styles.NicknameInput
+          <styles.CodeInputContainer>
+            <styles.CodeInput
               type="code"
               name="code"
               placeholder="인증번호 입력해주세요."
               value={code}
               onChange={handleCodeChange}
             />
-            <styles.NicknameBtn>확인</styles.NicknameBtn>
-          </styles.NicknameInputContainer>
+            <styles.CheckBtn onClick={verifyCode}>확인</styles.CheckBtn>
+          </styles.CodeInputContainer>
           <styles.BlackLine>
             <img src={BlackLine} alt="BlackLine" />
           </styles.BlackLine>
@@ -151,7 +154,6 @@ function SignUp() {
               value={nickname}
               onChange={handleNicknameChange}
             />
-            <styles.NicknameBtn>확인</styles.NicknameBtn>
           </styles.NicknameInputContainer>
           <styles.BlackLine>
             <img src={BlackLine} alt="BlackLine" />

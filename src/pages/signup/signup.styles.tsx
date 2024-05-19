@@ -72,6 +72,40 @@ export const EmailReceiveBtn = styled.button`
   font-size: 15px;
 `;
 
+export const CodeInputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  border: 1px solid #02a6cb;
+  border-radius: 7px;
+  margin-top: 10px;
+`;
+
+export const CodeInput = styled.input`
+  width: 60%;
+  height: 50%;
+  font-size: 20px;
+  border: none;
+  padding: 12px 15px;
+  margin-left: 5px;
+  outline: none;
+`;
+
+export const CheckBtn = styled.button`
+  width: 20%;
+  height: 40px;
+  padding: 12px 15px;
+  margin-top: 5px;
+  margin-left: 45px;
+  margin-right: 5px;
+  background-color: #e2f9ff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+`;
+
 export const NicknameTitle = styled.div`
   margin-top: 20px;
   font-size: 20px;
@@ -90,26 +124,13 @@ export const NicknameInputContainer = styled.div`
 `;
 
 export const NicknameInput = styled.input`
-  width: 60%;
+  width: 80%;
   height: 50%;
   font-size: 20px;
   border: none;
   padding: 12px 15px;
   margin-left: 5px;
   outline: none;
-`;
-
-export const NicknameBtn = styled.button`
-  width: 20%;
-  height: 40px;
-  padding: 12px 15px;
-  margin-top: 5px;
-  margin-left: 45px;
-  margin-right: 5px;
-  background-color: #e2f9ff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 `;
 
 export const FieldContainer = styled.div`
@@ -160,4 +181,5 @@ export const StartBtn = styled.div`
 
 export const BlackLine = styled.div`
   margin-top: 5px;
+  width: 100%;
 `;
