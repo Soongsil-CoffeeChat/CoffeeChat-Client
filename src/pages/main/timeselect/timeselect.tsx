@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as styles from "./timeselect.styles";
 import { useLocation } from "react-router-dom";
+import BackButton from "../../../components/button/backButton";
 
 interface TimeSlot {
   date: string;
@@ -51,8 +52,8 @@ const TimeSelect = () => {
   return (
     <styles.Container>
       <styles.HeaderContainer>
-        <styles.BackButton onClick={() => console.log("뒤로 가기")}>
-          {"<-"}
+        <styles.BackButton>
+          <BackButton />
         </styles.BackButton>
         <styles.HeaderText>미팅 날짜 및 시간을 맞춰주세요</styles.HeaderText>
         <styles.HeaderSubText>
