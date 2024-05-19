@@ -77,3 +77,11 @@ export const ApplyButton = styled.button`
   color: white;
   cursor: pointer;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: flex-start; /* 상단 정렬 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  height: 10%; /* 필요한 경우 높이 설정 */
+  width: 100%; /* 필요한 경우 너비 설정 */
+`;

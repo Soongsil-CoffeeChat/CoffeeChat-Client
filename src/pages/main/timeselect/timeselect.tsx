@@ -52,9 +52,9 @@ const TimeSelect = () => {
   return (
     <styles.Container>
       <styles.HeaderContainer>
-        <styles.BackButton>
+        <styles.ButtonContainer>
           <BackButton />
-        </styles.BackButton>
+        </styles.ButtonContainer>
         <styles.HeaderText>미팅 날짜 및 시간을 맞춰주세요</styles.HeaderText>
         <styles.HeaderSubText>
           COOGH 동아리와의 미팅 시간을 선택해주세요.
