@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as styles from "./timeselect.styles";
+import { useLocation } from "react-router-dom";
 
-function TimeSelect() {
-  const timeSlots = [
-    "화 09:00-10:00",
-    "수 09:00-10:00",
-    "목 10:00-11:00",
-    "금 11:00-12:00",
-  ];
+interface TimeSlot {
+  date: string;
+  startTime: string;
+  endTime: string;
+}
 
+const TimeSelect = () => {
+  const location = useLocation();
+  const username = location.state.key;
+  const [timeSlots, setTimeSlots] = useState<string[]>([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
 
   const handleTimeSlotClick = (timeSlot: string) => {
-    setSelectedTimeSlot(timeSlot); // 선택된 시간 슬롯 업데이트
+    setSelectedTimeSlot(timeSlot);
   };
   useEffect(() => {
     const token = process.env.REACT_APP_TOKEN;
-    const url = `https://cogo.life/api/v1/mentor/possibleDates/{username}`;
-
+    const url = `https://cogo.run/api/v1/mentor/possibleDates/${username}`;
+    console.log(username);
     fetch(url, {
       method: "GET",
       headers: {
@@ -27,12 +30,24 @@ function TimeSelect() {
     })
       .then((response) => response.json())
       .then((data) => {
+        const formedData = getFormattedTimeSlots(data);
+        setTimeSlots(formedData);
         console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }, []);
+
+  const getFormattedTimeSlots = (fetchData: TimeSlot[]) => {
+    return fetchData.map((slot: TimeSlot) => {
+      const date = new Date(slot.date);
+      const dayOfWeek = date.toLocaleString("ko-KR", { weekday: "short" });
+      const formattedDate = date.toLocaleDateString("ko-KR");
+      return `${dayOfWeek} ${formattedDate} ${slot.startTime} ~ ${slot.endTime}`;
+    });
+  };
+
   return (
     <styles.Container>
       <styles.HeaderContainer>
@@ -60,6 +75,6 @@ function TimeSelect() {
       </styles.BodyContainer>
     </styles.Container>
   );
-}
+};
 
 export default TimeSelect;
