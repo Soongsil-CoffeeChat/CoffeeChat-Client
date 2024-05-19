@@ -1,27 +1,9 @@
-import axios from "axios";
-import { useEffect } from "react";
 import styled from "styled-components";
 import loadingGIF from "../../assets/loading.gif";
 
-function LoginCallback() {
-  useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get("code");
-    if (code) {
-      axios
-        .post("http://cogo.run/reissue", { code }, { withCredentials: true })
-        .then((response) => {
-          localStorage.setItem("accessToken", response.data.accessToken);
-          window.location.href = "/";
-        })
-        .catch((error) => {
-          console.error("Error: ", error);
-          alert("다시 로그인 해주세요! 🙏🏻");
-        });
-    } else {
-      window.location.href = "/signup";
-    }
-  }, []);
+// 콜백 불필요로 인해, 로직은 제외하고 로딩 모달로 빼두겠습니다!
 
+function Loading() {
   return (
     <LoginCallbackWrap>
       <img className="gif" src={loadingGIF} alt="Loading" />
@@ -30,7 +12,7 @@ function LoginCallback() {
   );
 }
 
-export default LoginCallback;
+export default Loading;
 
 const LoginCallbackWrap = styled.div`
   display: flex;

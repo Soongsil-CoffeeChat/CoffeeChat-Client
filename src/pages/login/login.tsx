@@ -6,9 +6,6 @@ import * as styles from "./login.styles";
 
 const LoginModal = () => {
   const onGoogleLogin = () => {
-    // 로걸 http://localhost:3000/
-    // https://cogo.life
-    // https://cogo.run/
     window.location.href = " https://cogo.life/oauth2/authorization/google";
   };
 
