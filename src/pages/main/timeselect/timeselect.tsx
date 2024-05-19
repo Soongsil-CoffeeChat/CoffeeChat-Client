@@ -20,7 +20,7 @@ const TimeSelect = () => {
   };
   useEffect(() => {
     const token = process.env.REACT_APP_TOKEN;
-    const url = `https://cogo.run/api/v1/mentor/possibleDates/${username}`;
+    const url = `https://cogo.life/api/v1/mentor/possibleDates/${username}`;
     console.log(username);
     fetch(url, {
       method: "GET",

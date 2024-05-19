@@ -3,12 +3,11 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* width: 100vw;
-  height: 100vh; */
 `;
 
-export const HeaderContainer = styled.div``;
+export const HeaderContainer = styled.div`
+  padding: 0 2rem;
+`;
 
 export const BackButton = styled.button`
   left: 20px;
@@ -42,7 +41,7 @@ export const TimeSlotContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center; // 중앙 정렬을 위해 추가
+  justify-content: center;
 `;
 
 interface TimeSlotButton {
@@ -58,7 +57,7 @@ export const TimeSlotButton = styled.button<TimeSlotButton>`
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  width: calc(50% - 22px); // 전체 폭의 절반에서 간격을 고려한 너비 설정
+  width: calc(50% - 22px);
 
   &:hover {
     background-color: ${(props) => (props.isSelected ? "#87CEEB" : "#e0f0ff")};
@@ -80,8 +79,8 @@ export const ApplyButton = styled.button`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  align-items: flex-start; /* 상단 정렬 */
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  height: 10%; /* 필요한 경우 높이 설정 */
-  width: 100%; /* 필요한 경우 너비 설정 */
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 10%;
+  width: 100%;
 `;
