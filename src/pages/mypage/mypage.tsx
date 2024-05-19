@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as styles from "./mypage.styles";
-import BackButton from '../../components/button/backButton'
+import BackButton from "../../components/button/backButton";
 
 function MyPage() {
   const [activeButtons, setActiveButtons] = useState<string[]>([]);
@@ -9,15 +9,13 @@ function MyPage() {
     // 클릭한 분야 변경 시 데이터 가져오기
   }, [activeButtons]);
 
-
-
   return (
     <styles.Container>
       <styles.HeaderContainer>
         <styles.ButtonContainer>
-          <BackButton alignSelf="start"/>
+          <BackButton />
         </styles.ButtonContainer>
-        <styles.ProfileButton/>
+        <styles.ProfileButton />
       </styles.HeaderContainer>
       <styles.BodyContainer>
         <styles.BodyContentContainer>

@@ -122,6 +122,8 @@ export const BodyIntroduce = styled.div`
   flex-direction: column;
   margin-left: 1rem;
   margin-right: 1rem;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transform: translateX(0%); // 초기 위치
 `;
 
 export const BodyIntroduceHeader = styled.div`
@@ -147,4 +149,14 @@ export const ApplyButton = styled.div`
   font-size: 16px;
   color: white;
   cursor: pointer;
+`;
+export const CardWrapper = styled.div`
+  display: flex;
+  width: 300%; // 각 카드가 100% 너비를 가지므로 총 카드 수에 따라 조정
+  overflow: hidden;
+`;
+
+export const Card = styled.div`
+  min-width: 100%; // 각 카드가 전체 화면 너비를 차지
+  transition: all 0.5s ease; // 부드러운 전환 효과
 `;
