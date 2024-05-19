@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "21"
+          node-version: "20"
 
       - name: Install Dependencies
         run: npm install
@@ -27,11 +27,6 @@ jobs:
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
-
-      - name: Apply Firebase Hosting Target
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_COFFEEGO_SSU }}
-        run: firebase target:apply hosting coffeego-ssu coffeego-ssu.web.app --token $FIREBASE_TOKEN
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
