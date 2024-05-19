@@ -25,7 +25,16 @@ jobs:
         env:
           CI: false
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Apply Firebase Hosting Target
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_COFFEEGO_SSU }}
+        run: firebase target:apply hosting coffeego-ssu coffeego-ssu.web.app --token $FIREBASE_TOKEN
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_COFFEEGO_SSU }}
