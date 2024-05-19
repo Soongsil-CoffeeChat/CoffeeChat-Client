@@ -152,7 +152,7 @@ export const StartBtn = styled.div`
   background: linear-gradient(180deg, #62c6c4 0%, #02a6cb 100%);
   border: none;
   border-radius: 7px;
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
   color: white;
   cursor: pointer;

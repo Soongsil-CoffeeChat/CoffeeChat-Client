@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, ChangeEvent, useEffect } from "react";
 import LeftArrow from "../../assets/ArrowLeft.svg";
@@ -9,7 +10,7 @@ import * as styles from "./signup.styles";
 function SignUp() {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
-  const [domain, setDomain] = useState<string>("직접입력");
+  const [domain, setDomain] = useState<string>("@self");
   const [code, setCode] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
   const [activeButton, setActiveButton] = useState<string>("");
@@ -22,7 +23,7 @@ function SignUp() {
     setDomain(event.target.value);
   };
 
-  const handleCodehange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCode(event.target.value);
   };
 
@@ -44,6 +45,41 @@ function SignUp() {
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButton((prev) => (prev === buttonName ? "" : buttonName));
+  };
+
+  const getEmailLink = () => {
+    if (domain === "@self") {
+      return `https://cogo.run/auth/email?email=${email}`;
+    } else {
+      return `https://cogo.run/auth/email?email=${email}${domain}`;
+    }
+  };
+
+  const sendEmail = () => {
+    const link = getEmailLink();
+    axios
+      .get(link)
+
+      // fetch(link, {
+      //   method: "GET",
+      //   headers: { "Content-Type": "apllication/text" },
+      // })
+      .then((response) => {
+        console.log("이메일 전송 완료");
+        // response.json();
+        // response.text();
+        console.log(response);
+        const receivedCode = response.data;
+        if (code === receivedCode) {
+          localStorage.setItem("authCode", code);
+        } else {
+          alert("인증 코드가 일치하지 않습니다. 다시 시도해주세요.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error: ", error);
+        alert("이메일 전송에 실패했습니다. 다시 시도해주세요.");
+      });
   };
 
   return (
@@ -88,14 +124,16 @@ function SignUp() {
               <option value="@daum.net">@daum.net</option>
             </styles.EmailSelect>
           </styles.EmailContainer>
-          <styles.EmailReceiveBtn>이메일 받기</styles.EmailReceiveBtn>
+          <styles.EmailReceiveBtn onClick={sendEmail}>
+            이메일 받기
+          </styles.EmailReceiveBtn>
           <styles.NicknameInputContainer>
             <styles.NicknameInput
               type="code"
               name="code"
               placeholder="인증번호 입력해주세요."
               value={code}
-              onChange={handleCodehange}
+              onChange={handleCodeChange}
             />
             <styles.NicknameBtn>확인</styles.NicknameBtn>
           </styles.NicknameInputContainer>
