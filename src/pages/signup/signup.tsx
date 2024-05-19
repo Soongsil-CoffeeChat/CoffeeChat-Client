@@ -35,10 +35,6 @@ function SignUp() {
     navigate("/login");
   };
 
-  const goToHome = () => {
-    navigate("/");
-  };
-
   useEffect(() => {
     // 클릭한 분야 변경 시 데이터 가져오기
   }, [activeButton]);
@@ -67,7 +63,7 @@ function SignUp() {
         },
       })
       .then((response) => {
-        console.log("이메일 전송 완료", response);
+        // console.log("이메일 전송 완료", response);
         const receivedCode = response.data;
         localStorage.setItem("authCode", receivedCode);
       })
@@ -85,6 +81,34 @@ function SignUp() {
       alert("인증 코드가 일치하지 않습니다. 다시 시도해주세요 🥹");
     }
   };
+
+  const submitSignUp = () => {
+    const token = process.env.REACT_APP_TOKEN;
+    const url = "https://cogo.life/api/v1/user/join/mentee";
+    const userData = {
+      email: `${email}${domain}`,
+      nickname: nickname,
+      part: activeButton,
+    };
+
+    axios
+      .post(url, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        // console.log("회원가입 성공: ", response);
+        alert("회원가입 성공! 코고와 함께 성공해봐요!! 🔥");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("회원가입 실패: ", error);
+        alert("회원가입 과정에서 오류가 발생했습니다. 다시 시도해주세요 😱");
+      });
+  };
+
   return (
     <>
       <styles.Container>
@@ -176,7 +200,7 @@ function SignUp() {
               ))}
             </styles.FieldButtonContainer>
           </styles.FieldContainer>
-          <styles.StartBtn onClick={goToHome}>시작하기</styles.StartBtn>
+          <styles.StartBtn onClick={submitSignUp}>시작하기</styles.StartBtn>
         </styles.InputContainer>
       </styles.Container>
     </>
