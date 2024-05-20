@@ -44,10 +44,10 @@ export const TimeSlotContainer = styled.div`
   justify-content: center;
 `;
 
-interface TimeSlotButton {
+interface TimeSlotButtonProps {
   isSelected: boolean;
 }
-export const TimeSlotButton = styled.button<TimeSlotButton>`
+export const TimeSlotButton = styled.button<TimeSlotButtonProps>`
   background-color: ${(props) =>
     props.isSelected ? "#87CEEB" : "transparent"};
   color: ${(props) => (props.isSelected ? "white" : "black")};
