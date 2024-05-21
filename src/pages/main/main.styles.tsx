@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100vh;
+  margin: 10px;
 `;
 
 export const HeaderContainer = styled.div`
@@ -144,7 +145,7 @@ export const ApplyButton = styled.div`
   justify-content: center;
   align-items: center;
   background: linear-gradient(to left, #62c6c4 0%, #02a6cb 100%);
-  width: 360px;
+  /* width: 360px; */
   height: 50px;
   border-radius: 7px;
   font-size: 16px;
@@ -154,11 +155,11 @@ export const ApplyButton = styled.div`
 `;
 export const CardWrapper = styled.div`
   display: flex;
-  width: 300%; // 각 카드가 100% 너비를 가지므로 총 카드 수에 따라 조정
+  width: 300%;
   overflow: hidden;
 `;
 
 export const Card = styled.div`
-  min-width: 100%; // 각 카드가 전체 화면 너비를 차지
-  transition: all 0.5s ease; // 부드러운 전환 효과
+  min-width: 100%;
+  transition: all 0.5s ease;
 `;
