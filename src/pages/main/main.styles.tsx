@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100vh;
+  margin: 10px;
 `;
 
 export const HeaderContainer = styled.div`
@@ -37,7 +38,8 @@ export const HeaderButton = styled.div<HeaderButtonProps>`
   cursor: pointer;
   font-weight: bold;
   font-size: 15px;
-  background-color: ${(props) => (props.active ? "#02A6CB" : "#e9fbff")};
+  /* 활성화 버튼 색 수정 */
+  background-color: ${(props) => (props.active ? "#79E5FF" : "#e9fbff")};
   border-radius: 13px;
   padding: 12px 18px;
   margin: 15px 10px;
@@ -49,7 +51,7 @@ export const HeaderButton = styled.div<HeaderButtonProps>`
 export const HeaderProfileButton = styled.div<HeaderButtonProps>`
   padding: 15px 15px;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 0.3px solid black; //선을 최소화 진행
   background-color: ${(props) => (props.active ? "#02A6CB" : "#e9fbff")};
   color: #000;
 `;
@@ -143,20 +145,21 @@ export const ApplyButton = styled.div`
   justify-content: center;
   align-items: center;
   background: linear-gradient(to left, #62c6c4 0%, #02a6cb 100%);
-  width: 360px;
+  /* width: 360px; */
   height: 50px;
   border-radius: 7px;
   font-size: 16px;
+  font-weight: bold;
   color: white;
   cursor: pointer;
 `;
 export const CardWrapper = styled.div`
   display: flex;
-  width: 300%; // 각 카드가 100% 너비를 가지므로 총 카드 수에 따라 조정
+  width: 300%;
   overflow: hidden;
 `;
 
 export const Card = styled.div`
-  min-width: 100%; // 각 카드가 전체 화면 너비를 차지
-  transition: all 0.5s ease; // 부드러운 전환 효과
+  min-width: 100%;
+  transition: all 0.5s ease;
 `;
