@@ -37,7 +37,8 @@ export const HeaderButton = styled.div<HeaderButtonProps>`
   cursor: pointer;
   font-weight: bold;
   font-size: 15px;
-  background-color: ${(props) => (props.active ? "#02A6CB" : "#e9fbff")};
+  /* 활성화 버튼 색 수정 */
+  background-color: ${(props) => (props.active ? "#79E5FF" : "#e9fbff")};
   border-radius: 13px;
   padding: 12px 18px;
   margin: 15px 10px;
@@ -49,7 +50,7 @@ export const HeaderButton = styled.div<HeaderButtonProps>`
 export const HeaderProfileButton = styled.div<HeaderButtonProps>`
   padding: 15px 15px;
   border-radius: 20px;
-  border: 1px solid black;
+  border: 0.3px solid black; //선을 최소화 진행
   background-color: ${(props) => (props.active ? "#02A6CB" : "#e9fbff")};
   color: #000;
 `;
@@ -147,6 +148,7 @@ export const ApplyButton = styled.div`
   height: 50px;
   border-radius: 7px;
   font-size: 16px;
+  font-weight: bold;
   color: white;
   cursor: pointer;
 `;

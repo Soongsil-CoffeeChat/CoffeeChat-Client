@@ -85,7 +85,7 @@ function Main() {
             ))}
           </styles.HeaderButtonContainer>
         </styles.HeaderTitle>
-        <styles.HeaderText>동아리별 코고 선배 알아보기</styles.HeaderText>
+        <styles.HeaderText>동아리별 COGO 선배 알아보기</styles.HeaderText>
         <styles.HeaderButtonContainer>
           {["기획", "FE", "BE", "디자인"].map((buttonName) => (
             <styles.HeaderButton
@@ -113,9 +113,9 @@ function Main() {
             />
           </styles.ProfileTopContainer>
           <styles.ProfileBottomContainer>
-            <styles.ProfileIcon>ㅎㅇ</styles.ProfileIcon>
-            <styles.ProfileIcon>ㅎㅇ</styles.ProfileIcon>
-            <styles.ProfileIcon>ㅎㅇ</styles.ProfileIcon>
+            <styles.ProfileIcon>동아리</styles.ProfileIcon>
+            <styles.ProfileIcon>FE</styles.ProfileIcon>
+            <styles.ProfileIcon>Lead</styles.ProfileIcon>
           </styles.ProfileBottomContainer>
         </styles.BodyProfile>
         <styles.BodyIntroduce>
