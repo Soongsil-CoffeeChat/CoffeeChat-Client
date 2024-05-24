@@ -79,7 +79,8 @@ function Main() {
               <styles.HeaderProfileButton
                 key={buttonName}
                 active={activeButtons.includes(buttonName)}
-                onClick={() => handleProfileButtonClick(buttonName)}>
+                onClick={() => handleProfileButtonClick(buttonName)}
+              >
                 {buttonName}
               </styles.HeaderProfileButton>
             ))}
@@ -91,7 +92,8 @@ function Main() {
             <styles.HeaderButton
               key={buttonName}
               active={activeButtons.includes(buttonName)}
-              onClick={() => handleButtonClick(buttonName)}>
+              onClick={() => handleButtonClick(buttonName)}
+            >
               {buttonName}
             </styles.HeaderButton>
           ))}
@@ -136,7 +138,8 @@ function Main() {
                       : null,
                 },
               });
-            }}>
+            }}
+          >
             코고 신청하기
           </styles.ApplyButton>
         </styles.BodyIntroduce>
