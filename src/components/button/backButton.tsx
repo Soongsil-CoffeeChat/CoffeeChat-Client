@@ -11,7 +11,7 @@ function BackButton() {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate(-1); // 뒤로 가기
+    navigate(-1);
   };
 
   return (
