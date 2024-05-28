@@ -1,26 +1,78 @@
-// import axios from "axios";
-// import { useEffect } from "react";
+import axios from "axios";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { authState } from "../../atoms/authState";
 import styled from "styled-components";
 import loadingGIF from "../../assets/loading.gif";
 
+function getCookieValue(name: string): string | null {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(`${name}=`))
+    ?.split("=")[1];
+
+  return cookieValue || null;
+}
+
 function LoginCallback() {
-  // useEffect(() => {
-  //   const code = new URLSearchParams(window.location.search).get("code");
-  //   if (code) {
-  //     axios
-  //       .post("http://cogo.run/reissue", { code }, { withCredentials: true })
-  //       .then((response) => {
-  //         localStorage.setItem("accessToken", response.data.accessToken);
-  //         window.location.href = "/";
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error: ", error);
-  //         alert("다시 로그인 해주세요! 🙏🏻");
-  //       });
-  //   } else {
-  //     window.location.href = "/signup";
-  //   }
-  // }, []);
+  const setAuth = useSetRecoilState(authState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const sendTokenRequest = async () => {
+      try {
+        const response = await axios({
+          method: "post",
+          url: "https://cogo.life/reissue",
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setTimeout(() => {
+          const refreshToken = getCookieValue("refresh");
+          const loginStatus = getCookieValue("loginStatus");
+
+          if (refreshToken && loginStatus) {
+            setAuth({
+              isLoggedIn: true,
+              username: null,
+              token: refreshToken,
+            });
+
+            switch (loginStatus) {
+              case "signup":
+                navigate("/signup");
+                break;
+              case "main":
+                navigate("/");
+                break;
+              default:
+                console.error("로그인 상태가 없음", loginStatus);
+            }
+          } else {
+            console.error("쿠키가 없음");
+            setAuth({
+              isLoggedIn: false,
+              username: null,
+              token: null,
+            });
+          }
+        }, 100);
+      } catch (error) {
+        console.error("토큰이 없음", error);
+        setAuth({
+          isLoggedIn: false,
+          username: null,
+          token: null,
+        });
+      }
+    };
+
+    sendTokenRequest();
+  }, [setAuth, navigate]);
 
   return (
     <LoginCallbackWrap>
@@ -29,7 +81,6 @@ function LoginCallback() {
     </LoginCallbackWrap>
   );
 }
-
 export default LoginCallback;
 
 const LoginCallbackWrap = styled.div`
