@@ -32,7 +32,7 @@ function SignUp() {
   };
 
   const goToLogin = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
