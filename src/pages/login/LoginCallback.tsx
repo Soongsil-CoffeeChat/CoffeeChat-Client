@@ -6,63 +6,62 @@ import { authState } from "../../atoms/authState";
 import styled from "styled-components";
 import loadingGIF from "../../assets/loading.gif";
 
-function getCookieValue(name: string): string | null {
-  const cookieValue = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${name}=`))
-    ?.split("=")[1];
-
-  return cookieValue || null;
-}
-
 function LoginCallback() {
   const setAuth = useSetRecoilState(authState);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const sendTokenRequest = async () => {
+    const fetchToken = async () => {
       try {
-        const response = await axios({
-          method: "post",
-          url: "https://cogo.life/reissue",
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        setTimeout(() => {
-          const refreshToken = getCookieValue("refresh");
-          const loginStatus = getCookieValue("loginStatus");
-
-          if (refreshToken && loginStatus) {
-            setAuth({
-              isLoggedIn: true,
-              username: null,
-              token: refreshToken,
-            });
-
-            switch (loginStatus) {
-              case "signup":
-                navigate("/signup");
-                break;
-              case "main":
-                navigate("/");
-                break;
-              default:
-                console.error("로그인 상태가 없음", loginStatus);
-            }
-          } else {
-            console.error("쿠키가 없음");
-            setAuth({
-              isLoggedIn: false,
-              username: null,
-              token: null,
-            });
+        console.log("토큰을 가져오는 중...");
+        const response = await axios.post(
+          "https://cogo.life/reissue",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // withCredentials: true,
           }
-        }, 100);
+        );
+
+        console.log("응답 데이터:", response);
+
+        const accessToken = response.headers["access"];
+        const loginStatus = response.headers["loginstatus"];
+
+        if (accessToken && loginStatus) {
+          setAuth({
+            isLoggedIn: true,
+            username: null,
+            token: accessToken,
+          });
+
+          switch (loginStatus) {
+            case "signup":
+              navigate("/signup");
+              break;
+            case "main":
+              navigate("/");
+              break;
+            default:
+              console.error("알 수 없는 로그인 상태:", loginStatus);
+          }
+        } else {
+          console.error("필수 토큰이나 로그인 상태가 없음");
+          setAuth({
+            isLoggedIn: false,
+            username: null,
+            token: null,
+          });
+        }
       } catch (error) {
-        console.error("토큰이 없음", error);
+        if (axios.isAxiosError(error)) {
+          console.error("요청 처리 중 오류 발생:", error.message);
+          console.error("오류 세부사항:", error.response || error.message);
+        } else {
+          console.error("알 수 없는 오류 발생:", error);
+        }
         setAuth({
           isLoggedIn: false,
           username: null,
@@ -71,7 +70,7 @@ function LoginCallback() {
       }
     };
 
-    sendTokenRequest();
+    fetchToken();
   }, [setAuth, navigate]);
 
   return (
