@@ -13,7 +13,6 @@ function LoginCallback() {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        console.log("토큰을 가져오는 중...");
         const response = await axios.post(
           "https://cogo.life/reissue",
           {},
@@ -21,44 +20,45 @@ function LoginCallback() {
             headers: {
               "Content-Type": "application/json",
             },
-            // withCredentials: true,
+            withCredentials: true,
           }
         );
 
         console.log("응답 데이터:", response);
 
-        const accessToken = response.headers["access"];
-        const loginStatus = response.headers["loginstatus"];
+        if (response.status === 200) {
+          const accessToken = response.headers["access"];
+          const loginStatus = response.headers["loginstatus"];
 
-        if (accessToken && loginStatus) {
-          setAuth({
-            isLoggedIn: true,
-            username: null,
-            token: accessToken,
-          });
+          if (accessToken && loginStatus) {
+            setAuth({
+              isLoggedIn: true,
+              username: null,
+              token: accessToken,
+            });
 
-          switch (loginStatus) {
-            case "signup":
-              navigate("/signup");
-              break;
-            case "main":
-              navigate("/");
-              break;
-            default:
-              console.error("알 수 없는 로그인 상태:", loginStatus);
+            switch (loginStatus) {
+              case "signup":
+                navigate("/signup");
+                break;
+              case "main":
+                navigate("/");
+                break;
+              default:
+                console.error("알 수 없는 로그인 상태:", loginStatus);
+            }
+          } else {
+            console.error("필수 토큰이나 로그인 상태가 없음");
+            setAuth({
+              isLoggedIn: false,
+              username: null,
+              token: null,
+            });
           }
-        } else {
-          console.error("필수 토큰이나 로그인 상태가 없음");
-          setAuth({
-            isLoggedIn: false,
-            username: null,
-            token: null,
-          });
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("요청 처리 중 오류 발생:", error.message);
-          console.error("오류 세부사항:", error.response || error.message);
         } else {
           console.error("알 수 없는 오류 발생:", error);
         }
