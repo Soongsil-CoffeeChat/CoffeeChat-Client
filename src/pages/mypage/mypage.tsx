@@ -4,7 +4,7 @@ import BackButton from "../../components/button/backButton";
 
 function MyPage() {
   const [activeButtons, setActiveButtons] = useState<string[]>([]);
-  const [Username, setUsername] = useState<string>('멘티_User');
+  const [Username, setUsername] = useState<string>("멘티_User");
 
   useEffect(() => {
     // 클릭한 분야 변경 시 데이터 가져오기
