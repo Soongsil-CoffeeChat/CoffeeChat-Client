@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, ChangeEvent, useEffect } from "react";
+import { authState } from "../../atoms/authState";
+import { useRecoilValue } from "recoil";
 import LeftArrow from "../../assets/ArrowLeft.svg";
 import BlackLine from "../../assets/BlackLine.svg";
 import * as styles from "./signup.styles";
@@ -9,6 +11,7 @@ import * as styles from "./signup.styles";
 
 function SignUp() {
   const navigate = useNavigate();
+  const { token } = useRecoilValue(authState);
   const [email, setEmail] = useState<string>("");
   const [domain, setDomain] = useState<string>("@self");
   const [code, setCode] = useState<string>("");
@@ -35,9 +38,7 @@ function SignUp() {
     navigate("/");
   };
 
-  useEffect(() => {
-    // 클릭한 분야 변경 시 데이터 가져오기
-  }, [activeButton]);
+  useEffect(() => {}, [activeButton]);
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButton((prev) => (prev === buttonName ? "" : buttonName));
@@ -52,7 +53,6 @@ function SignUp() {
   };
 
   const sendEmail = () => {
-    const token = process.env.REACT_APP_TOKEN;
     const link = getEmailLink();
 
     axios
@@ -83,7 +83,6 @@ function SignUp() {
   };
 
   const submitSignUp = () => {
-    const token = process.env.REACT_APP_TOKEN;
     const url = "https://cogo.life/api/v1/user/join/mentee";
     const userData = {
       email: `${email}${domain}`,

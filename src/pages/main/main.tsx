@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as styles from "./main.styles";
 import { useNavigate } from "react-router-dom";
+import { authState } from "../../atoms/authState";
+import { useRecoilValue } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
 
@@ -17,13 +19,17 @@ function Main() {
   const [mentorData, setMentorData] = useState<MentorData[] | null>(null);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {}, [activeButtons]);
+  const { token } = useRecoilValue(authState);
 
   useEffect(() => {
-    const token = process.env.REACT_APP_TOKEN;
-    // process.env.REACT_APP_TOKEN;
-    const url = `https://cogo.run/api/v1/mentor/BE`;
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    const url = `https://cogo.life/api/v1/mentor/BE`;
 
     fetch(url, {
       method: "GET",

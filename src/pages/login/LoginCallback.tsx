@@ -24,7 +24,7 @@ function LoginCallback() {
           }
         );
 
-        console.log("응답 데이터:", response);
+        // console.log("응답 헤더:", response.headers);
 
         if (response.status === 200) {
           const accessToken = response.headers["access"];
@@ -36,6 +36,8 @@ function LoginCallback() {
               username: null,
               token: accessToken,
             });
+
+            localStorage.setItem("isLoggedIn", "true");
 
             switch (loginStatus) {
               case "signup":
@@ -62,11 +64,6 @@ function LoginCallback() {
         } else {
           console.error("알 수 없는 오류 발생:", error);
         }
-        setAuth({
-          isLoggedIn: false,
-          username: null,
-          token: null,
-        });
       }
     };
 
