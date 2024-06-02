@@ -24,7 +24,7 @@ function LoginCallback() {
           }
         );
 
-        console.log("응답 데이터:", response);
+        // console.log("응답 헤더:", response.headers);
 
         if (response.status === 200) {
           const accessToken = response.headers["access"];
