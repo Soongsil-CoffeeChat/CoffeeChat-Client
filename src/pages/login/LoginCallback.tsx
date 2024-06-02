@@ -37,6 +37,8 @@ function LoginCallback() {
               token: accessToken,
             });
 
+            localStorage.setItem("isLoggedIn", "true");
+
             switch (loginStatus) {
               case "signup":
                 navigate("/signup");
@@ -62,11 +64,6 @@ function LoginCallback() {
         } else {
           console.error("알 수 없는 오류 발생:", error);
         }
-        setAuth({
-          isLoggedIn: false,
-          username: null,
-          token: null,
-        });
       }
     };
 
