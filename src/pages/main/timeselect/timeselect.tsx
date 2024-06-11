@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import * as styles from "./timeselect.styles";
 import { useLocation } from "react-router-dom";
 import BackButton from "../../../components/button/backButton";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../../atoms/authState";
 
 interface TimeSlot {
   date: string;
@@ -10,6 +12,7 @@ interface TimeSlot {
 }
 
 const TimeSelect = () => {
+  const { token } = useRecoilValue(authState);
   const location = useLocation();
   const username = location.state.key;
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
@@ -19,7 +22,6 @@ const TimeSelect = () => {
     setSelectedTimeSlot(timeSlot);
   };
   useEffect(() => {
-    const token = process.env.REACT_APP_TOKEN;
     const url = `https://cogo.life/api/v1/mentor/possibleDates/${username}`;
     console.log(username);
     fetch(url, {
