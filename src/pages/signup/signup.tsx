@@ -35,7 +35,7 @@ function SignUp() {
   };
 
   const goToLogin = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   useEffect(() => {}, [activeButton]);
