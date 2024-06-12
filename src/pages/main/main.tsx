@@ -112,7 +112,7 @@ function Main() {
               onClick={handlePrevClick}
             />
             <styles.ProfileCircle
-              imageUrl={
+              src={
                 mentorData !== null
                   ? mentorData[currentIndex].picture.slice(1, -1)
                   : "https://picsum.photos/250/250"

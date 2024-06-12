@@ -82,17 +82,13 @@ export const ImageButton = styled.img`
   border: none;
   cursor: pointer;
 `;
-interface ProfileCircleProps {
-  imageUrl: string;
-}
 
-export const ProfileCircle = styled.div<ProfileCircleProps>`
+export const ProfileCircle = styled.img`
   width: 196px;
   height: 196px;
   background-color: white;
   border-radius: 50%;
   flex: none;
-  background-image: url(${(props) => props.imageUrl});
 `;
 
 export const ProfileTopContainer = styled.div`
