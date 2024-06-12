@@ -82,13 +82,19 @@ export const ImageButton = styled.img`
   border: none;
   cursor: pointer;
 `;
-export const ProfileCircle = styled.div`
+interface ProfileCircleProps {
+  imageUrl: string;
+}
+
+export const ProfileCircle = styled.div<ProfileCircleProps>`
   width: 196px;
   height: 196px;
   background-color: white;
   border-radius: 50%;
   flex: none;
+  background-image: url(${(props) => props.imageUrl});
 `;
+
 export const ProfileTopContainer = styled.div`
   display: flex;
   flex-direction: row;

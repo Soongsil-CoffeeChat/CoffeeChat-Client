@@ -111,7 +111,13 @@ function Main() {
               alt="Left"
               onClick={handlePrevClick}
             />
-            <styles.ProfileCircle />
+            <styles.ProfileCircle
+              imageUrl={
+                mentorData !== null
+                  ? mentorData[currentIndex].mentorName
+                  : "https://picsum.photos/250/250"
+              }
+            />
             <styles.ImageButton
               src={RightButton}
               alt="Right"
