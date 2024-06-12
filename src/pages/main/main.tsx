@@ -114,7 +114,7 @@ function Main() {
             <styles.ProfileCircle
               imageUrl={
                 mentorData !== null
-                  ? mentorData[currentIndex].mentorName
+                  ? mentorData[currentIndex].picture
                   : "https://picsum.photos/250/250"
               }
             />
