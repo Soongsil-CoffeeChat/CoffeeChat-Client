@@ -6,6 +6,20 @@ import { useRecoilValue } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
 
+type MentorCategory = {
+  "기획": 'PM',
+  "FE": 'FE', 
+  "BE": 'BE',
+  "디자인": 'DE',
+};
+
+const mentorCategory: MentorCategory = {
+  "기획": 'PM',
+  "FE": 'FE', 
+  "BE": 'BE',
+  "디자인": 'DE',
+};
+
 interface MentorData {
   picture: string;
   mentorName: string;
@@ -15,7 +29,7 @@ interface MentorData {
 }
 
 function Main() {
-  const [activeButtons, setActiveButtons] = useState<string[]>([]);
+  const [activeButtons, setActiveButtons] = useState<keyof MentorCategory>('기획');
   const [mentorData, setMentorData] = useState<MentorData[] | null>(null);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,8 +42,8 @@ function Main() {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    const url = `https://cogo.life/api/v1/mentor/BE`;
+  const getMentorData=()=>{
+    const url = `https://cogo.life/api/v1/mentor/${mentorCategory[activeButtons]}`;
 
     fetch(url, {
       method: "GET",
@@ -46,17 +60,18 @@ function Main() {
       .catch((error) => {
         console.error("Error:", error);
       });
+  }
+
+  useEffect(() => {
+    getMentorData();
   }, []);
 
-  const handleButtonClick = (buttonName: string) => {
-    setActiveButtons((prev) => {
-      const isActive = prev.includes(buttonName);
-      if (isActive) {
-        return prev.filter((name) => name !== buttonName);
-      } else {
-        return [...prev, buttonName];
-      }
-    });
+  useEffect(()=>{
+    getMentorData()
+  },[activeButtons]);
+
+  const handleButtonClick = (buttonName:keyof MentorCategory) => {
+    setActiveButtons(buttonName)
   };
 
   const handleProfileButtonClick = (buttonName: string) => {
@@ -93,11 +108,11 @@ function Main() {
         </styles.HeaderTitle>
         <styles.HeaderText>동아리별 COGO 선배 알아보기</styles.HeaderText>
         <styles.HeaderButtonContainer>
-          {["기획", "FE", "BE", "디자인"].map((buttonName) => (
+          {["기획","BE",'FE',"디자인"].map((buttonName) => (
             <styles.HeaderButton
               key={buttonName}
               active={activeButtons.includes(buttonName)}
-              onClick={() => handleButtonClick(buttonName)}>
+              onClick={() => {handleButtonClick(buttonName as keyof MentorCategory)}}>
               {buttonName}
             </styles.HeaderButton>
           ))}
@@ -126,7 +141,7 @@ function Main() {
           </styles.ProfileTopContainer>
           <styles.ProfileBottomContainer>
             <styles.ProfileIcon>동아리</styles.ProfileIcon>
-            <styles.ProfileIcon>FE</styles.ProfileIcon>
+            <styles.ProfileIcon>{activeButtons}</styles.ProfileIcon>
             <styles.ProfileIcon>Lead</styles.ProfileIcon>
           </styles.ProfileBottomContainer>
         </styles.BodyProfile>
