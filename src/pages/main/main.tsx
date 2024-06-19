@@ -28,19 +28,26 @@ interface MentorData {
   username: string;
 }
 
-// 토큰을 로컬 스토리지에 저장
 const saveTokenToLocalStorage = (token: string) => {
   localStorage.setItem("token", token);
 };
 
-// 로컬 스토리지에서 토큰을 불러오기
 const getTokenFromLocalStorage = () => {
   return localStorage.getItem("token");
 };
 
+const saveCategoryToLocalStorage = (category: keyof MentorCategory) => {
+  localStorage.setItem("activeCategory", category);
+};
+
+const getCategoryFromLocalStorage = () => {
+  return localStorage.getItem("activeCategory") as keyof MentorCategory;
+};
+
 function Main() {
-  const [activeButtons, setActiveButtons] =
-    useState<keyof MentorCategory>("기획");
+  const [activeButtons, setActiveButtons] = useState<keyof MentorCategory>(
+    getCategoryFromLocalStorage() || "기획"
+  );
   const [mentorData, setMentorData] = useState<MentorData[] | null>(null);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,7 +88,6 @@ function Main() {
       .then((response) => response.json())
       .then((data) => {
         setMentorData(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -94,6 +100,10 @@ function Main() {
 
   useEffect(() => {
     getMentorData();
+  }, [activeButtons]);
+
+  useEffect(() => {
+    saveCategoryToLocalStorage(activeButtons);
   }, [activeButtons]);
 
   const handleButtonClick = (buttonName: keyof MentorCategory) => {
@@ -156,9 +166,10 @@ function Main() {
             />
             <styles.ProfileCircle
               src={
-                mentorData !== null
-                  ? mentorData[currentIndex].picture.slice(1, -1)
-                  : "https://picsum.photos/250/250"
+                !mentorData ||
+                (Array.isArray(mentorData) && mentorData.length === 0)
+                  ? "https://picsum.photos/250/250"
+                  : mentorData[currentIndex].picture.slice(1, -1)
               }
             />
             <styles.ImageButton
@@ -175,16 +186,20 @@ function Main() {
         </styles.BodyProfile>
         <styles.BodyIntroduce>
           <styles.BodyIntroduceText>
-            {mentorData !== null ? mentorData[currentIndex].mentorName : null}
+            {!mentorData ||
+            (Array.isArray(mentorData) && mentorData.length === 0)
+              ? null
+              : mentorData[currentIndex].mentorName}
           </styles.BodyIntroduceText>
           <styles.ApplyButton
             onClick={() => {
               navigate("/timeselect", {
                 state: {
                   key:
-                    mentorData !== null
-                      ? mentorData[currentIndex].username
-                      : null,
+                    !mentorData ||
+                    (Array.isArray(mentorData) && mentorData.length === 0)
+                      ? null
+                      : mentorData[currentIndex].username,
                 },
               });
             }}>
