@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import * as styles from "./main.styles";
 import { useNavigate } from "react-router-dom";
 import { authState } from "../../atoms/authState";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
 
 type MentorCategory = {
-  "기획": 'PM',
-  "FE": 'FE', 
-  "BE": 'BE',
-  "디자인": 'DE',
+  기획: "PM";
+  FE: "FE";
+  BE: "BE";
+  디자인: "DE";
 };
 
 const mentorCategory: MentorCategory = {
-  "기획": 'PM',
-  "FE": 'FE', 
-  "BE": 'BE',
-  "디자인": 'DE',
+  기획: "PM",
+  FE: "FE",
+  BE: "BE",
+  디자인: "DE",
 };
 
 interface MentorData {
@@ -28,27 +28,53 @@ interface MentorData {
   username: string;
 }
 
+// 토큰을 로컬 스토리지에 저장
+const saveTokenToLocalStorage = (token: string) => {
+  localStorage.setItem("token", token);
+};
+
+// 로컬 스토리지에서 토큰을 불러오기
+const getTokenFromLocalStorage = () => {
+  return localStorage.getItem("token");
+};
+
 function Main() {
-  const [activeButtons, setActiveButtons] = useState<keyof MentorCategory>('기획');
+  const [activeButtons, setActiveButtons] =
+    useState<keyof MentorCategory>("기획");
   const [mentorData, setMentorData] = useState<MentorData[] | null>(null);
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { token } = useRecoilValue(authState);
+  const [auth, setAuth] = useRecoilState(authState);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     if (!isLoggedIn) {
       navigate("/login");
+    } else {
+      const token = getTokenFromLocalStorage();
+      if (token) {
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          token,
+          isLoggedIn: true,
+        }));
+      }
     }
-  }, [navigate]);
+  }, [navigate, setAuth]);
 
-  const getMentorData=()=>{
+  useEffect(() => {
+    if (auth.token) {
+      saveTokenToLocalStorage(auth.token);
+    }
+  }, [auth.token]);
+
+  const getMentorData = () => {
     const url = `https://cogo.life/api/v1/mentor/${mentorCategory[activeButtons]}`;
 
     fetch(url, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${auth.token}`,
         "Content-Type": "application/json",
       },
     })
@@ -60,18 +86,18 @@ function Main() {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }
+  };
 
   useEffect(() => {
     getMentorData();
   }, []);
 
-  useEffect(()=>{
-    getMentorData()
-  },[activeButtons]);
+  useEffect(() => {
+    getMentorData();
+  }, [activeButtons]);
 
-  const handleButtonClick = (buttonName:keyof MentorCategory) => {
-    setActiveButtons(buttonName)
+  const handleButtonClick = (buttonName: keyof MentorCategory) => {
+    setActiveButtons(buttonName);
   };
 
   const handleProfileButtonClick = (buttonName: string) => {
@@ -108,11 +134,13 @@ function Main() {
         </styles.HeaderTitle>
         <styles.HeaderText>동아리별 COGO 선배 알아보기</styles.HeaderText>
         <styles.HeaderButtonContainer>
-          {["기획","BE",'FE',"디자인"].map((buttonName) => (
+          {["기획", "BE", "FE", "디자인"].map((buttonName) => (
             <styles.HeaderButton
               key={buttonName}
               active={activeButtons.includes(buttonName)}
-              onClick={() => {handleButtonClick(buttonName as keyof MentorCategory)}}>
+              onClick={() => {
+                handleButtonClick(buttonName as keyof MentorCategory);
+              }}>
               {buttonName}
             </styles.HeaderButton>
           ))}
@@ -146,12 +174,8 @@ function Main() {
           </styles.ProfileBottomContainer>
         </styles.BodyProfile>
         <styles.BodyIntroduce>
-          {/* <styles.BodyIntroduceHeader> */}
-          {/* {mentorData[currentIndex].} */}
-          {/* </styles.BodyIntroduceHeader> */}
           <styles.BodyIntroduceText>
             {mentorData !== null ? mentorData[currentIndex].mentorName : null}
-            {/* {profiles[currentIndex].text} */}
           </styles.BodyIntroduceText>
           <styles.ApplyButton
             onClick={() => {
