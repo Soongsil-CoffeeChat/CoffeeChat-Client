@@ -21,9 +21,9 @@ const TimeSelect = () => {
   const handleTimeSlotClick = (timeSlot: string) => {
     setSelectedTimeSlot(timeSlot);
   };
+
   useEffect(() => {
     const url = `https://cogo.life/api/v1/mentor/possibleDates/${username}`;
-    console.log(username);
     fetch(url, {
       method: "GET",
       headers: {
@@ -35,15 +35,17 @@ const TimeSelect = () => {
       .then((data) => {
         const formedData = getFormattedTimeSlots(data);
         setTimeSlots(formedData);
-        console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
+  }, [token, username]);
 
   const getFormattedTimeSlots = (fetchData: TimeSlot[]) => {
-    return fetchData.map((slot: TimeSlot) => {
+    const sortedData = fetchData.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    return sortedData.map((slot: TimeSlot) => {
       const date = new Date(slot.date);
       const dayOfWeek = date.toLocaleString("ko-KR", { weekday: "short" });
       const formattedDate = date.toLocaleDateString("ko-KR");
