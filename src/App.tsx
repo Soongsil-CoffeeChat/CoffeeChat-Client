@@ -29,7 +29,7 @@ export default App;
 
 const Body = styled.div`
   margin: 0 auto;
-  max-width: 390px;
+  max-width: 400px;
   min-width: 360px;
   margin: 0 auto;
 `;

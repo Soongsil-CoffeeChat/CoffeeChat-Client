@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100vh;
-  margin: 10px;
+  margin: 20px;
 `;
 
 export const HeaderContainer = styled.div`

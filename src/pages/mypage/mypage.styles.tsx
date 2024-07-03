@@ -21,7 +21,7 @@ export const BodyContainer = styled.div`
   align-items: left;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 20px;
+  padding: 0 10px;
 `;
 
 export const BodyTitle = styled.h2`
@@ -65,18 +65,18 @@ export const ProfileButtonContainer = styled.div`
 `;
 
 export const ProfileButton = styled.div`
-  display: flex; // 내부 콘텐츠를 가운데 정렬하기 위한 설정
-  width: 200px; // 원의 크기를 정하기 위해 너비 설정
-  height: 200px; // 원의 크기를 정하기 위해 높이 설정
-  border-radius: 50%; // 완벽한 원을 만들기 위해 border-radius를 50%로 설정
-  background-color: white; // 배경색을 흰색으로 설정
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: white;
   margin: 0 auto;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
-  align-items: flex-start; /* 상단 정렬 */
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  align-items: flex-start;
+  justify-content: flex-start;
   height: 10%;
   width: 100%;
 `;

@@ -54,7 +54,6 @@ function SignUp() {
 
   const sendEmail = () => {
     const link = getEmailLink();
-
     axios
       .get(link, {
         headers: {
@@ -63,9 +62,9 @@ function SignUp() {
         },
       })
       .then((response) => {
-        // console.log("이메일 전송 완료", response);
         const receivedCode = response.data;
         localStorage.setItem("authCode", receivedCode);
+        alert("이메일 전송 성공! 📨");
       })
       .catch((error) => {
         console.error("Error: ", error);
@@ -98,7 +97,6 @@ function SignUp() {
         },
       })
       .then((response) => {
-        // console.log("회원가입 성공: ", response);
         alert("회원가입 성공! 코고와 함께 성공해봐요!! 🔥");
         navigate("/");
       })
