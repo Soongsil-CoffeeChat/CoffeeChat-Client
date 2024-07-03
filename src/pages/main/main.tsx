@@ -5,7 +5,6 @@ import { authState } from "../../atoms/authState";
 import { useRecoilState } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
-import axiosInstance from "../../apis/axiosConfig";
 
 type MentorCategory = {
   기획: "PM";
@@ -77,16 +76,18 @@ function Main() {
   }, [auth.token]);
 
   const getMentorData = () => {
-    const url = `/api/v1/mentor/${mentorCategory[activeButtons]}`;
+    const url = `https://cogo.life/api/v1/mentor/${mentorCategory[activeButtons]}`;
 
-    axiosInstance
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      })
-      .then((response) => {
-        setMentorData(response.data);
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMentorData(data);
       })
       .catch((error) => {
         console.error("Error:", error);
