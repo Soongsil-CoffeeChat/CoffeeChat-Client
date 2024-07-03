@@ -5,6 +5,7 @@ import { authState } from "../../atoms/authState";
 import { useRecoilState } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
+import axiosInstance from "../../apis/axiosConfig";
 
 type MentorCategory = {
   기획: "PM";
@@ -76,18 +77,16 @@ function Main() {
   }, [auth.token]);
 
   const getMentorData = () => {
-    const url = `https://cogo.life/api/v1/mentor/${mentorCategory[activeButtons]}`;
+    const url = `/api/v1/mentor/${mentorCategory[activeButtons]}`;
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setMentorData(data);
+    axiosInstance
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      })
+      .then((response) => {
+        setMentorData(response.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -136,7 +135,8 @@ function Main() {
               <styles.HeaderProfileButton
                 key={buttonName}
                 active={activeButtons.includes(buttonName)}
-                onClick={() => handleProfileButtonClick(buttonName)}>
+                onClick={() => handleProfileButtonClick(buttonName)}
+              >
                 {buttonName}
               </styles.HeaderProfileButton>
             ))}
@@ -150,7 +150,8 @@ function Main() {
               active={activeButtons.includes(buttonName)}
               onClick={() => {
                 handleButtonClick(buttonName as keyof MentorCategory);
-              }}>
+              }}
+            >
               {buttonName}
             </styles.HeaderButton>
           ))}
@@ -202,7 +203,8 @@ function Main() {
                       : mentorData[currentIndex].username,
                 },
               });
-            }}>
+            }}
+          >
             코고 신청하기
           </styles.ApplyButton>
         </styles.BodyIntroduce>
