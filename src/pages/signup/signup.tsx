@@ -62,9 +62,9 @@ function SignUp() {
         },
       })
       .then((response) => {
+        alert("이메일 전송 성공! 📨");
         const receivedCode = response.data;
         localStorage.setItem("authCode", receivedCode);
-        alert("이메일 전송 성공! 📨");
       })
       .catch((error) => {
         console.error("Error: ", error);
