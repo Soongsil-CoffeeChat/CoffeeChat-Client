@@ -1,13 +1,154 @@
+:root {
+  --vh: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  letter-spacing: -0.2px;
+  font-family: Pretendard, "Pretendard Variable", -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Pretendard, "Pretendard Variable", -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  margin: 0 auto;
+  border: 0;
+  padding: 0;
+  vertical-align: baseline;
+  touch-action: manipulation;
+  box-sizing: border-box;
+
+  max-width: 520px;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome , Safari , Opera */
+}
+
+html {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  scroll-behavior: smooth;
+}
+
+ul,
+li {
+  padding-left: 0rem;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+input,
+button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 2.5rem;
+  cursor: pointer;
+}
+input:focus {
+  outline: none;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* 더 작은 모바일 */
+@media (max-width: 280px) {
+  body {
+    display: none;
+  }
+}
+
+/* 더 작은 모바일 */
+@media (min-width: 281px) and (max-width: 300px) {
+  html {
+    font-size: 6px;
+  }
+}
+
+/* 더 작은 모바일 */
+@media (min-width: 301px) and (max-width: 340px) {
+  html {
+    font-size: 6.5px;
+  }
+}
+
+@media (min-width: 341px) and (max-width: 380px) {
+  html {
+    font-size: 7.5px;
+  }
+}
+
+@media (min-width: 381px) and (max-width: 420px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+/* 작은 모바일 */
+@media (min-width: 421px) and (max-width: 480px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+/* 모바일 및 태블릿 세로 */
+@media (min-width: 481px) and (max-width: 768px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+/* 태블릿 가로 및 소형 노트북 */
+@media (min-width: 769px) and (max-width: 1023px) {
+  html {
+    font-size: 11px;
+  }
+}
+
+/* 대형 노트북 */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  html {
+    font-size: 11px;
+  }
+}
+
+/* 데스크탑 */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  html {
+    font-size: 11.5px;
+  }
+}
+
+/* 대형 디스플레이 */
+@media (min-width: 1920px) {
+  html {
+    font-size: 11.5px;
+  }
 }

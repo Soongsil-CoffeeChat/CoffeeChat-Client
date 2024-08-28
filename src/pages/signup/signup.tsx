@@ -1,207 +1,118 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useState, ChangeEvent, useEffect } from "react";
-import { authState } from "../../atoms/authState";
-import { useRecoilValue } from "recoil";
-import LeftArrow from "../../assets/ArrowLeft.svg";
-import BlackLine from "../../assets/BlackLine.svg";
-import * as styles from "./signup.styles";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import BackButton from "../../components/button/backButton";
+import { useRecoilState } from "recoil";
+import {
+  phoneNumberState,
+  nameState,
+  userTypeState,
+  partState,
+  clubState,
+} from "../../atoms/authState";
+import * as S from "./signup.styles";
+import TermsStep from "./signup_terms";
+import NameStep from "./signup_name";
+import PhoneNumStep from "./signup_phoneNum";
+import OptionSelectStep from "./signup_optionSelect";
+import CheckStep from "./signup_check";
+import CompleteStep from "./signup_complete";
 
-// 회원가입 페이지
-
-function SignUp() {
+export default function SignUp() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const step = searchParams.get("step") || "terms";
   const navigate = useNavigate();
-  const { token } = useRecoilValue(authState);
-  const [email, setEmail] = useState<string>("");
-  const [domain, setDomain] = useState<string>("@self");
-  const [code, setCode] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
-  const [activeButton, setActiveButton] = useState<string>("");
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  // 상태 변수들
+  const [phoneNumber, setPhoneNumber] = useRecoilState(phoneNumberState);
+  const [name, setName] = useRecoilState(nameState);
+  const [userOption, setUserOption] = useRecoilState(userTypeState);
+  const [part, setPart] = useRecoilState(partState);
+  const [club, setClub] = useRecoilState(clubState);
+
+  // 단계를 변경하는 함수
+  const goToStep = (newStep: string) => {
+    setSearchParams({ step: newStep });
   };
 
-  const handleDomainChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setDomain(event.target.value);
-  };
+  // 새로고침 감지하여 signup으로 리다이렉트
+  useEffect(() => {
+    // PerformanceNavigationTiming 타입으로 캐스팅
+    const navigation = performance.getEntriesByType(
+      "navigation"
+    )[0] as PerformanceNavigationTiming;
 
-  const handleCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCode(event.target.value);
-  };
-
-  const handleNicknameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNickname(event.target.value);
-  };
-
-  const goToLogin = () => {
-    navigate("/login");
-  };
-
-  useEffect(() => {}, [activeButton]);
-
-  const handleButtonClick = (buttonName: string) => {
-    setActiveButton((prev) => (prev === buttonName ? "" : buttonName));
-  };
-
-  const getEmailLink = () => {
-    if (domain === "@self") {
-      return `https://cogo.life/api/v1/email?email=${email}`;
-    } else {
-      return `https://cogo.life/api/v1/email?email=${email}${domain}`;
+    if (navigation.type === "reload") {
+      navigate("/signup", { replace: true });
     }
-  };
+  }, [navigate]);
 
-  const sendEmail = () => {
-    const link = getEmailLink();
-    axios
-      .get(link, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        alert("이메일 전송 성공! 📨");
-        const receivedCode = response.data;
-        localStorage.setItem("authCode", receivedCode);
-      })
-      .catch((error) => {
-        console.error("Error: ", error);
-        alert("이메일 전송에 실패했습니다. 다시 시도해주세요 🥹");
-      });
-  };
-
-  const verifyCode = () => {
-    const savedCode = localStorage.getItem("authCode");
-    if (code === savedCode) {
-      alert("인증 성공!🙌🏻");
-    } else {
-      alert("인증 코드가 일치하지 않습니다. 다시 시도해주세요 🥹");
+  // 각 단계별 렌더링 함수
+  const renderStep = () => {
+    switch (step) {
+      case "terms":
+        return <TermsStep goToStep={goToStep} />;
+      case "phonenum":
+        return (
+          <PhoneNumStep
+            goToStep={goToStep}
+            phoneNumber={phoneNumber}
+            setPhoneNumber={setPhoneNumber}
+          />
+        );
+      case "name":
+        return <NameStep goToStep={goToStep} name={name} setName={setName} />;
+      case "usertype":
+        return (
+          <OptionSelectStep
+            title="거의 다 되었습니다!"
+            subtitle="멘토로 가입하실지, 멘티로 가입하실지 알려주세요"
+            options={["멘토", "멘티"]}
+            selectedOption={userOption}
+            setSelectedOption={setUserOption}
+            nextStep="part"
+            goToStep={goToStep}
+          />
+        );
+      case "part":
+        return (
+          <OptionSelectStep
+            title="나의 관심사 또는 희망하는 직종을 선택해주세요"
+            subtitle="나중에 관심사가 바뀌어도 수정이 가능해요"
+            options={["FE", "BE", "기획", "디자인"]}
+            selectedOption={part}
+            setSelectedOption={setPart}
+            nextStep="club"
+            goToStep={goToStep}
+          />
+        );
+      case "club":
+        return (
+          <OptionSelectStep
+            title="소속된 동아리가 있나요?"
+            subtitle="입력하신 정보는 마이페이지에서 수정이 가능해요"
+            options={["GDSC", "YOURSSU", "UMC", "LIKELION", "NO CLUB"]}
+            selectedOption={club}
+            setSelectedOption={setClub}
+            nextStep="check"
+            goToStep={goToStep}
+          />
+        );
+      case "check":
+        return <CheckStep goToStep={goToStep} />;
+      case "complete":
+        return <CompleteStep />;
+      default:
+        return <TermsStep goToStep={goToStep} />;
     }
-  };
-
-  const submitSignUp = () => {
-    const url = "https://cogo.life/api/v1/user/join/mentee";
-    const userData = {
-      email: `${email}${domain}`,
-      nickname: nickname,
-      part: activeButton,
-    };
-
-    axios
-      .post(url, userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        alert("회원가입 성공! 코고와 함께 성공해봐요!! 🔥");
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("회원가입 실패: ", error);
-        alert("회원가입 과정에서 오류가 발생했습니다. 다시 시도해주세요 😱");
-      });
   };
 
   return (
-    <>
-      <styles.Container>
-        <styles.HeaderContainer>
-          <styles.LeftArrow
-            src={LeftArrow}
-            alt="arrowBnt"
-            onClick={goToLogin}
-          />
-          <styles.HeaderTitle>
-            코고에 가입하려면
-            <br />
-            추가정보가 필요해요{" "}
-          </styles.HeaderTitle>
-          <styles.HeaderText>
-            개인정보는 정보통신망법에 따라 안전하게 보관됩니다.
-          </styles.HeaderText>
-        </styles.HeaderContainer>
-        <styles.InputContainer>
-          <styles.HeaderTitle>
-            <styles.EmailText>이메일</styles.EmailText>
-            <styles.HeaderText>
-              이메일(해당 메일로 안내 메일이 갑니다)
-            </styles.HeaderText>
-          </styles.HeaderTitle>
-          <styles.EmailContainer>
-            <styles.EmailInput
-              type="email"
-              name="email"
-              placeholder="이메일"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <styles.EmailSelect value={domain} onChange={handleDomainChange}>
-              <option value="@self">직접입력</option>
-              <option value="@gmail.com">@gmail.com</option>
-              <option value="@naver.com">@naver.com</option>
-              <option value="@soongsil.ac.kr">@soongsil.ac.kr</option>
-              <option value="@kakao.com">@kakao.com</option>
-              <option value="@daum.net">@daum.net</option>
-            </styles.EmailSelect>
-          </styles.EmailContainer>
-          <styles.EmailReceiveBtn onClick={sendEmail}>
-            이메일 받기
-          </styles.EmailReceiveBtn>
-          <styles.CodeInputContainer>
-            <styles.CodeInput
-              type="code"
-              name="code"
-              placeholder="인증번호 입력해주세요."
-              value={code}
-              onChange={handleCodeChange}
-            />
-            <styles.CheckBtn onClick={verifyCode}>확인</styles.CheckBtn>
-          </styles.CodeInputContainer>
-          <styles.BlackLine>
-            <img src={BlackLine} alt="BlackLine" />
-          </styles.BlackLine>
-          <styles.HeaderTitle>
-            <styles.NicknameTitle>닉네임</styles.NicknameTitle>
-          </styles.HeaderTitle>
-          <styles.NicknameInputContainer>
-            <styles.NicknameInput
-              type="nickname"
-              name="nickname"
-              placeholder="닉네임을 입력해주세요."
-              value={nickname}
-              onChange={handleNicknameChange}
-            />
-          </styles.NicknameInputContainer>
-          <styles.BlackLine>
-            <img src={BlackLine} alt="BlackLine" />
-          </styles.BlackLine>
-          <styles.FieldContainer>
-            <styles.FieldText>
-              나의 관심사 또는 희망하는
-              <br />
-              분야을 선택해주세요
-            </styles.FieldText>
-            <styles.FieldButtonContainer>
-              {["기획", "FE", "BE", "디자인"].map((buttonName) => (
-                <styles.FieldButton
-                  key={buttonName}
-                  active={activeButton.includes(buttonName)}
-                  onClick={() => handleButtonClick(buttonName)}
-                >
-                  {buttonName}
-                </styles.FieldButton>
-              ))}
-            </styles.FieldButtonContainer>
-          </styles.FieldContainer>
-          <styles.StartBtn onClick={submitSignUp}>시작하기</styles.StartBtn>
-        </styles.InputContainer>
-      </styles.Container>
-    </>
+    <S.Container>
+      <S.Header>
+        <BackButton />
+      </S.Header>
+      {renderStep()}
+    </S.Container>
   );
 }
-
-export default SignUp;

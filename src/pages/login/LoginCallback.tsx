@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { authState } from "../../atoms/authState";
@@ -9,9 +9,13 @@ import loadingGIF from "../../assets/loading.gif";
 function LoginCallback() {
   const setAuth = useSetRecoilState(authState);
   const navigate = useNavigate();
+  const isFetchingRef = useRef(false); // 추가된 부분: 요청 중인지 확인하는 플래그
 
   useEffect(() => {
     const fetchToken = async () => {
+      if (isFetchingRef.current) return; // 이미 요청 중이면 리턴
+      isFetchingRef.current = true; // 요청 시작
+
       try {
         const response = await axios.post(
           "https://cogo.life/reissue",
@@ -21,10 +25,11 @@ function LoginCallback() {
               "Content-Type": "application/json",
             },
             withCredentials: true,
+            maxRedirects: 0, // 리다이렉션 방지
           }
         );
 
-        // console.log("응답 헤더:", response.headers);
+        console.log("응답 헤더:", response.data);
 
         if (response.status === 200) {
           const accessToken = response.headers["access"];
@@ -41,9 +46,11 @@ function LoginCallback() {
 
             switch (loginStatus) {
               case "signup":
+                console.log("signup");
                 navigate("/signup");
                 break;
               case "main":
+                console.log("main");
                 navigate("/");
                 break;
               default:
@@ -61,9 +68,14 @@ function LoginCallback() {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("요청 처리 중 오류 발생:", error.message);
+          if (error.response && error.response.status === 302) {
+            console.error("리다이렉션 발생:", error.response.headers.location);
+          }
         } else {
           console.error("알 수 없는 오류 발생:", error);
-        }
+        } 
+      } finally {
+        isFetchingRef.current = false; // 요청 완료
       }
     };
 

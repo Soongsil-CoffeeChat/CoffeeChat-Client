@@ -1,41 +1,69 @@
-import React, { useEffect, useState } from "react";
-import * as styles from "./mypage.styles";
-import BackButton from "../../components/button/backButton";
+import { useState } from "react";
+import * as S from "./mypage.styles";
 import { useNavigate } from "react-router-dom";
+import {
+  Container,
+} from "../../components/global.styles";
+import Arrow from "../../assets/ArrowRight.svg"
 
-function MyPage() {
-  const [activeButtons, setActiveButtons] = useState<string[]>([]);
-  const [Username, setUsername] = useState<string>("멘티_User");
+export default function MyPage() {
+  const [username, setUsername] = useState<string>("멘티_User");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // 클릭한 분야 변경 시 데이터 가져오기
-  }, [activeButtons]);
 
   const handleLogout = () => {
     localStorage.setItem("isLoggedIn", "false");
     navigate("/login");
   };
 
+  const handleMyProfileButton = () => {
+    navigate("/mypage/myprofile");
+  };
+
+  const handleIntroduceButton = () => {
+    navigate("/mypage/introduce");
+  };
+
+  const handleTimeSelectButton = () => {
+    navigate("/mypage/timeselect");
+  };
+
   return (
-    <styles.Container>
-      <styles.HeaderContainer>
-        <styles.ButtonContainer>
-          <BackButton />
-        </styles.ButtonContainer>
-        <styles.ProfileButtonContainer>
-          <styles.ProfileButton />
-        </styles.ProfileButtonContainer>
-      </styles.HeaderContainer>
-      <styles.BodyContainer>
-        <styles.BodyTitle>{Username} 님 안녕하세요</styles.BodyTitle>
-        <styles.BodyText>내정보관리</styles.BodyText>
-        <styles.BodyText>버그관리</styles.BodyText>
-        <styles.BodyText>코고소개</styles.BodyText>
-        <styles.BodyText onClick={handleLogout}>로그아웃</styles.BodyText>
-      </styles.BodyContainer>
-    </styles.Container>
+    <Container>
+      <S.HeaderContainer>
+        <S.MenotorName>{username}</S.MenotorName>
+      </S.HeaderContainer>
+      <S.BodyContainer>
+        <S.ProfileContainer>
+          <S.ProfileCircle>
+            <S.ProfileImg />
+          </S.ProfileCircle>
+          <S.ProfileBottomContainer>
+            <S.ProfileIcon>BE</S.ProfileIcon>
+            <S.ProfileIcon>동아리 이름</S.ProfileIcon>
+          </S.ProfileBottomContainer>
+        </S.ProfileContainer>
+        <S.MenuContainer>
+          <S.MenuWrapper onClick={handleMyProfileButton}>
+            <S.MenuText>내 정보 관리</S.MenuText>
+            <S.ArrowImg src={Arrow} alt="Arrow" />
+          </S.MenuWrapper>
+          <S.Hr />
+          <S.MenuWrapper onClick={handleIntroduceButton}>
+            <S.MenuText>자기 소개 관리</S.MenuText>
+            <S.ArrowImg src={Arrow} alt="Arrow" />
+          </S.MenuWrapper>
+          <S.Hr />
+          <S.MenuWrapper onClick={handleTimeSelectButton}>
+            <S.MenuText>코고 시간 설정</S.MenuText>
+            <S.ArrowImg src={Arrow} alt="Arrow" />
+          </S.MenuWrapper>
+          <S.Hr />
+          <S.MenuWrapper onClick={handleLogout}>
+            <S.MenuText>로그아웃</S.MenuText>
+            <S.ArrowImg src={Arrow} alt="Arrow" style={{opacity: "0"}} />
+          </S.MenuWrapper>
+        </S.MenuContainer>
+      </S.BodyContainer>
+    </Container>
   );
 }
-
-export default MyPage;
