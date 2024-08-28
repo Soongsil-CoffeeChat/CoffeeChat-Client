@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as BackBtn } from "../../assets/arrow left.svg";
+import { ReactComponent as BackBtn } from "../../assets/ArrowLeft.svg";
 
 const BackButtonStyled = styled.div`
-  margin: 10px;
+  margin: 0;
 `;
 
 function BackButton() {

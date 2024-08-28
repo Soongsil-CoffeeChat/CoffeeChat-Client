@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
-import * as styles from "./main.styles";
+import * as S from "./main.styles";
 import { useNavigate } from "react-router-dom";
 import { authState } from "../../atoms/authState";
 import { useRecoilState } from "recoil";
 import LeftButton from "../../assets/LeftButton.svg";
 import RightButton from "../../assets/RightButton.svg";
+import axios from "axios";
+import axiosInstance from "../../apis/axiosInstance";
+import {
+  Container,
+  Header,
+  Subtitle,
+  Title,
+} from "../../components/global.styles";
+import Logo from "../../assets/Logo.svg";
+import Search from "../../assets/Search.svg";
 
 type MentorCategory = {
   기획: "PM";
+  디자인: "DESIGN";
   FE: "FE";
   BE: "BE";
-  디자인: "DE";
 };
 
 const mentorCategory: MentorCategory = {
   기획: "PM",
+  디자인: "DESIGN",
   FE: "FE",
   BE: "BE",
-  디자인: "DE",
 };
 
 interface MentorData {
@@ -53,56 +63,95 @@ function Main() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [auth, setAuth] = useRecoilState(authState);
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      const token = getTokenFromLocalStorage();
-      if (token) {
-        setAuth((prevAuth) => ({
-          ...prevAuth,
-          token,
-          isLoggedIn: true,
-        }));
-      }
-    }
-  }, [navigate, setAuth]);
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  //   if (!isLoggedIn) {
+  //     navigate("/login");
+  //   } else {
+  //     const token = getTokenFromLocalStorage();
+  //     if (token) {
+  //       setAuth((prevAuth) => ({
+  //         ...prevAuth,
+  //         token,
+  //         isLoggedIn: true,
+  //       }));
+  //     }
+  //   }
+  // }, [navigate, setAuth]);
 
-  useEffect(() => {
-    if (auth.token) {
-      saveTokenToLocalStorage(auth.token);
-    }
-  }, [auth.token]);
+  // useEffect(() => {
+  //   if (auth.token) {
+  //     saveTokenToLocalStorage(auth.token);
+  //   }
+  // }, [auth.token]);
 
   const getMentorData = () => {
-    const url = `https://cogo.life/api/v1/mentor/${mentorCategory[activeButtons]}`;
+    const url = `/mentors/part?part=${mentorCategory[activeButtons]}`;
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setMentorData(data);
+    axiosInstance
+      .get(url)
+      .then((response) => {
+        setMentorData(response.data);
+        console.log(response.data);
+        console.log("토큰 아직 유효해용~");
       })
-      .catch((error) => {
+      .catch(async (error) => {
         console.error("Error:", error);
+        // error.response가 undefined가 아닌지 확인
+        if (error.response) {
+          console.log("리이슈 요청 보내야 해용~");
+          const originalRequest = error.config;
+
+          // 액세스 토큰 만료 확인
+          if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            try {
+              // 리이슈 요청
+              const response = await axios.post(
+                "https://cogo.life/reissue",
+                {},
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  withCredentials: true,
+                }
+              );
+
+              // 새로운 액세스 토큰 저장
+              const newToken = response.headers.access;
+              saveTokenToLocalStorage(newToken);
+              if (newToken) {
+                console.log("리이슈 성공이용~", newToken);
+              }
+
+              // 원래 요청의 헤더 업데이트
+              originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+
+              // 원래 요청 재시도
+              return axiosInstance(originalRequest);
+            } catch (reissueError) {
+              // 리이슈 요청 실패 시
+              console.error("Failed to reissue access token:", reissueError);
+              return Promise.reject(reissueError);
+            }
+
+            // if (error.response && error.response.status === 401) {
+            //   localStorage.removeItem("isLoggedIn");
+            //   navigate("/login");
+          } else {
+            console.log("An unexpected error occurred");
+          }
+        } else {
+          // error.response가 없는 경우
+          console.log("Network or unexpected error occurred");
+        }
       });
   };
 
   useEffect(() => {
     getMentorData();
-  }, []);
-
-  useEffect(() => {
-    getMentorData();
-  }, [activeButtons]);
-
-  useEffect(() => {
     saveCategoryToLocalStorage(activeButtons);
   }, [activeButtons]);
 
@@ -110,107 +159,61 @@ function Main() {
     setActiveButtons(buttonName);
   };
 
-  const handleProfileButtonClick = (buttonName: string) => {
-    navigate("/mypage");
-  };
-
-  const handlePrevClick = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
-
-  const handleNextClick = () => {
-    if (currentIndex < (mentorData !== null ? mentorData.length - 1 : 0)) {
-      setCurrentIndex(currentIndex + 1);
-    }
+  const handleSearchBtnClick = () => {
+    navigate("/search");
   };
 
   return (
-    <styles.Container>
-      <styles.HeaderContainer>
-        <styles.HeaderTitle>
-          어떤 동아리 선배가 있을까요?
-          <styles.HeaderButtonContainer>
-            {[""].map((buttonName) => (
-              <styles.HeaderProfileButton
-                key={buttonName}
-                active={activeButtons.includes(buttonName)}
-                onClick={() => handleProfileButtonClick(buttonName)}
-              >
-                {buttonName}
-              </styles.HeaderProfileButton>
-            ))}
-          </styles.HeaderButtonContainer>
-        </styles.HeaderTitle>
-        <styles.HeaderText>동아리별 COGO 선배 알아보기</styles.HeaderText>
-        <styles.HeaderButtonContainer>
-          {["기획", "BE", "FE", "디자인"].map((buttonName) => (
-            <styles.HeaderButton
+    <Container>
+      <Header>
+        <S.HeaderButtonContainer>
+          <S.Logo src={Logo} alt="Logo" />
+          <S.Search src={Search} alt="Search" onClick={handleSearchBtnClick} />
+        </S.HeaderButtonContainer>
+        <S.HeaderButtonContainer>
+          {["기획", "디자인", "FE", "BE"].map((buttonName) => (
+            <S.HeaderButton
               key={buttonName}
-              active={activeButtons.includes(buttonName)}
+              $active={activeButtons.includes(buttonName)}
               onClick={() => {
                 handleButtonClick(buttonName as keyof MentorCategory);
               }}
             >
               {buttonName}
-            </styles.HeaderButton>
+            </S.HeaderButton>
           ))}
-        </styles.HeaderButtonContainer>
-      </styles.HeaderContainer>
-      <styles.BodyContainer>
-        <styles.BodyProfile>
-          <styles.ProfileTopContainer>
-            <styles.ImageButton
-              src={LeftButton}
-              alt="Left"
-              onClick={handlePrevClick}
-            />
-            <styles.ProfileCircle
-              src={
-                !mentorData ||
-                (Array.isArray(mentorData) && mentorData.length === 0)
-                  ? "https://picsum.photos/250/250"
-                  : mentorData[currentIndex].picture.slice(1, -1)
-              }
-            />
-            <styles.ImageButton
-              src={RightButton}
-              alt="Right"
-              onClick={handleNextClick}
-            />
-          </styles.ProfileTopContainer>
-          <styles.ProfileBottomContainer>
-            <styles.ProfileIcon>동아리</styles.ProfileIcon>
-            <styles.ProfileIcon>{activeButtons}</styles.ProfileIcon>
-            <styles.ProfileIcon>Lead</styles.ProfileIcon>
-          </styles.ProfileBottomContainer>
-        </styles.BodyProfile>
-        <styles.BodyIntroduce>
-          <styles.BodyIntroduceText>
-            {!mentorData ||
-            (Array.isArray(mentorData) && mentorData.length === 0)
-              ? null
-              : mentorData[currentIndex].mentorName}
-          </styles.BodyIntroduceText>
-          <styles.ApplyButton
-            onClick={() => {
-              navigate("/timeselect", {
-                state: {
-                  key:
-                    !mentorData ||
-                    (Array.isArray(mentorData) && mentorData.length === 0)
-                      ? null
-                      : mentorData[currentIndex].username,
-                },
-              });
-            }}
-          >
-            코고 신청하기
-          </styles.ApplyButton>
-        </styles.BodyIntroduce>
-      </styles.BodyContainer>
-    </styles.Container>
+        </S.HeaderButtonContainer>
+        <S.Hr />
+        <S.HeaderTitleContainer>
+          <Title>어떤 선배가 있을까요?</Title>
+          <Subtitle>파트별 코고 선배 알아보기</Subtitle>
+        </S.HeaderTitleContainer>
+      </Header>
+      <S.BodyContainer>
+        <S.ProfileCardContainer>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <S.ProfileCard key={index}>
+              <S.ProfileClub>GDSC</S.ProfileClub>
+              <S.ProfileCircle>
+                <S.ProfileImg
+                  src={
+                    mentorData?.[currentIndex]?.picture
+                      ? mentorData[currentIndex].picture.slice(1, -1)
+                      : "https://picsum.photos/250/250"
+                  }
+                />
+              </S.ProfileCircle>
+              <S.ProfileName>나는 교휘</S.ProfileName>
+              <S.ProfileBottomContainer>
+                <S.ProfileIcon>{activeButtons}</S.ProfileIcon>
+                <S.ProfileIcon>직무직무</S.ProfileIcon>
+                <S.ProfileIcon>경력</S.ProfileIcon>
+              </S.ProfileBottomContainer>
+            </S.ProfileCard>
+          ))}
+        </S.ProfileCardContainer>
+      </S.BodyContainer>
+    </Container>
   );
 }
 

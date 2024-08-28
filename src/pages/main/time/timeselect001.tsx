@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as styles from "./timeselect.styles";
+import * as styles from "./time.styles";
 import { useLocation } from "react-router-dom";
 import BackButton from "../../../components/button/backButton";
 import { useRecoilValue } from "recoil";
