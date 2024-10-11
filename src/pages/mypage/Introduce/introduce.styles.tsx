@@ -202,12 +202,18 @@ export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1rem;
+  margin: 0 0 3rem 0;
+`;
+
+export const MemoTitle = styled.p`
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 500;
 `;
 
 export const MemoText = styled.textarea`
   width: 100%;
-  min-height: 36rem;
+  height: 26rem;
   font-size: 1.6rem;
   font-weight: 300;
   line-height: 184%;

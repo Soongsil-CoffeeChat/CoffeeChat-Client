@@ -26,53 +26,47 @@ export const BodyContainer = styled.div`
 
 export const ProfileContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
-  margin: 4rem auto 5rem auto;
+  gap: 2rem;
+  margin-top: 1.5rem;
 `;
 
-export const ProfileCircle = styled.div`
-  width: 18rem;
-  height: 18rem;
+export const ProfileBox = styled.div`
+  width: 100%;
+  height: 19rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(
-    --Linear,
-    linear-gradient(
-      236deg,
-      #eb4436 20.97%,
-      #f6b805 43.66%,
-      #4286f5 63.36%,
-      #149a5d 82.85%
-    )
-  );
-  border-radius: 50%;
+  background-color: #F2F2F2;
   margin: 0 6rem;
+  border-radius: 2.2rem;
+  overflow: hidden;
 `;
 
 export const ProfileImg = styled.img`
-  width: 17rem;
-  height: 17rem;
-  border-radius: 50%;
-`;
-
-export const ProfileBottomContainer = styled.div`
   width: 100%;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  height: auto;
 `;
 
-export const ProfileIcon = styled.div`
+export const ProfileBase = styled.img`
+  height: 52%;
+  width: auto;
+`;
+
+export const ProfileTagContainer = styled.div`
+  display: flex;
+  gap: 1.5rem;
+`;
+
+export const ProfileTag = styled.div`
   font-weight: 500;
   font-size: 1.5rem;
   color: white;
   background-color: black;
   border-radius: 3rem;
-  padding: 0.65rem 2rem;
+  padding: 0.75rem 2.1rem;
 `;
 
 export const IntroduceContainer = styled.div`
@@ -83,15 +77,31 @@ export const IntroduceContainer = styled.div`
 `;
 
 export const IntroduceTitle = styled.span`
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 500;
-  margin-bottom: 1.5rem;
+  margin: 4rem 0 1rem 0;
 `;
-export const IntroduceContent = styled.span`
+
+export const IntroduceDescript = styled.span`
   font-size: 1.6rem;
   font-weight: 300;
   line-height: 184%;
   background-color: #F4F4F4;
-  border-radius: 1.7rem;
-  padding: 2rem;
+  border-radius: 1.2rem;
+  padding: 1.3rem;
+`;
+
+export const IntroduceAnswer = styled.span`
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 184%;
+  padding: 1rem 0;
+`;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90%;
 `;

@@ -153,8 +153,8 @@ export const HalfFixedButton = styled.button`
   font-weight: 500;
   width: calc(50% - 5rem);
   max-width: 234px;
-  bottom: 10.5rem;
-  // box-shadow: 0 0.4rem 1.3rem rgba(0, 0, 0, 0.25);
+  bottom: 11.5rem;
+  // box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.25);
   z-index: 100;
 `;
 

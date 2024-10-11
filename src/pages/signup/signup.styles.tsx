@@ -65,6 +65,12 @@ export const Input = styled.input`
   }
 `;
 
+export const DisplayText = styled.div`
+  font-size: 2.2rem;
+  max-width: 24rem;
+  border-radius: 0;
+`;
+
 export const NameInput = styled.input`
   padding: 1rem 0;
   width: 100%;
@@ -94,13 +100,18 @@ export const CertTime = styled.span`
 `;
 
 export const Button = styled.button`
+  position: absolute;
+  z-index: 10;
+  bottom: 12rem;
+  left: 50%;
+  transform: translate(-50%);
   padding: 1.6rem;
   background-color: #ededed;
   color: black;
   font-size: 2.2rem;
   font-weight: 500;
-  width: 50%;
-  margin: 3rem auto;
+  width: 43%;
+  margin: 0 auto;
 `;
 
 export const CheckboxContainer = styled.div`
@@ -159,4 +170,11 @@ export const FireImg = styled.img`
   width: 25rem;
   height: auto;
   margin: 8rem auto;
+`;
+
+export const ErrorText = styled.div`
+  width: 100%;
+  color: red;
+  font-size: 1.5rem;
+  margin-top: -1rem;
 `;

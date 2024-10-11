@@ -4,7 +4,7 @@ export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 `;
 
 export const MenotorName = styled.div`
@@ -26,61 +26,63 @@ export const BodyContainer = styled.div`
 
 export const ProfileContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
-  margin: 4rem auto 5rem auto;
+  gap: 2rem;
 `;
 
-export const ProfileCircle = styled.div`
-  width: 15.5rem;
-  height: 15.5rem;
+export const ProfileBox = styled.div`
+  width: 100%;
+  height: 19rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(
-    --Linear,
-    linear-gradient(
-      236deg,
-      #eb4436 20.97%,
-      #f6b805 43.66%,
-      #4286f5 63.36%,
-      #149a5d 82.85%
-    )
-  );
-  border-radius: 50%;
-  margin: 0 6rem;
+  background-color: #F2F2F2;
+  border-radius: 2.2rem;
+  overflow: hidden;
+  position: relative;
 `;
 
 export const ProfileImg = styled.img`
-  width: 14.5rem;
-  height: 14.5rem;
-  border-radius: 50%;
-  background-color: white;
-`;
-
-export const ProfileBottomContainer = styled.div`
   width: 100%;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  height: auto;
 `;
 
-export const ProfileIcon = styled.div`
+export const ProfileLayer = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 2.2rem;
+  background-color: #FFFFFF;
+  opacity: 70%;
+  position: absolute;
+`;
+
+export const ProfileBase = styled.img`
+  height: 52%;
+  width: auto;
+`;
+
+export const ProfileCamera = styled.img`
+  position: absolute;
+  z-index: 3;
+  width: 6rem;
+  height: 6rem;
+  margin-bottom: 2rem;
+`;
+
+export const ProfileTagContainer = styled.div`
+  display: flex;
+  gap: 1.5rem;
+`;
+
+export const ProfileTag = styled.div`
   font-weight: 500;
   font-size: 1.5rem;
   color: white;
   background-color: black;
   border-radius: 3rem;
-  padding: 0.65rem 2rem;
-`;
-
-export const IntroduceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 8rem;
+  padding: 0.75rem 2.1rem;
 `;
 
 export const MenuContainer = styled.div`
@@ -88,6 +90,7 @@ export const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-top: 4rem;
 `;
 
 export const MenuWrapper = styled.div`
@@ -121,4 +124,13 @@ export const Hr = styled.hr`
 export const ArrowImg = styled.img`
   width: 2.2rem;
   height: auto;
+`;
+
+export const UploadingOverlay = styled.div`
+  position: absolute;
+  z-index: 3;
+  margin-top: 6rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #a2a2a4;
 `;

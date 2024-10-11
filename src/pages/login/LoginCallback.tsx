@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { authState } from "../../atoms/authState";
 import styled from "styled-components";
 import loadingGIF from "../../assets/loading.gif";
+import authAxiosInstanceReissue from "../../apis/authAxiosInstanceReissue";
 
 function LoginCallback() {
   const setAuth = useSetRecoilState(authState);
@@ -17,17 +18,7 @@ function LoginCallback() {
       isFetchingRef.current = true; // 요청 시작
 
       try {
-        const response = await axios.post(
-          "https://cogo.life/reissue",
-          {},
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-            maxRedirects: 0, // 리다이렉션 방지
-          }
-        );
+        const response = await authAxiosInstanceReissue.post("/auth/reissue", {});
 
         console.log("응답 헤더:", response.data);
 
@@ -43,6 +34,7 @@ function LoginCallback() {
             });
 
             localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("token", accessToken);
 
             switch (loginStatus) {
               case "signup":
