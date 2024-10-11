@@ -75,14 +75,15 @@ export default function SignUp() {
           />
         );
       case "part":
+        const nextStepAfterPart = userOption === "멘토" ? "club" : "complete";
         return (
           <OptionSelectStep
             title="나의 관심사 또는 희망하는 직종을 선택해주세요"
             subtitle="나중에 관심사가 바뀌어도 수정이 가능해요"
-            options={["FE", "BE", "기획", "디자인"]}
+            options={["FE", "BE", "PM", "DESIGN"]}
             selectedOption={part}
             setSelectedOption={setPart}
-            nextStep="club"
+            nextStep={nextStepAfterPart}
             goToStep={goToStep}
           />
         );

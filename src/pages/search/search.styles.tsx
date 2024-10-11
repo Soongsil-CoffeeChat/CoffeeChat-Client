@@ -116,9 +116,39 @@ export const HeaderTitleContainer = styled.div`
 `;
 
 export const BodyContainer = styled.div`
+  width: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
+  gap: 1.75rem;
+  margin: -1.5rem 0 0 0;
+  padding: 1rem 0.75rem 1rem 0.75rem;
+  overflow-y: auto;
+  /* 웹킷 기반 브라우저 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5rem;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  /* 파이어폭스 */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+`;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  height: 90%;
 `;
 
 export const ProfileCardContainer = styled.div`

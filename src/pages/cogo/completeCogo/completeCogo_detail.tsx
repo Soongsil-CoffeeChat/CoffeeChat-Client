@@ -18,12 +18,12 @@ import BackButton from "../../../components/button/backButton";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-export default function SendCogoDetail() {
+export default function CompleteCogoDetail() {
   const [time, setTime] = useState<string>(""); // 메모 텍스트 상태 추가
   const navigate = useNavigate();
 
   const handleNextButton = () => {
-    navigate("/cogo/send");
+    navigate("/cogo/complete");
   };
 
   const options = [
@@ -39,7 +39,7 @@ export default function SendCogoDetail() {
         <BackButton />
       </Header>
       <S.BodyContainer>
-        <Title>김지은님께 보낸 코고입니다.</Title>
+        <Title>김지은님과의 코고일정입니다</Title>
         <Subtitle>COGO를 하면서 많은 성장을 기원해요!</Subtitle>
       </S.BodyContainer>
       <S.MenuContainer>

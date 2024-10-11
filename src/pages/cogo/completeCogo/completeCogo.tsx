@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   clubState,
   nameState,
@@ -17,42 +17,18 @@ import {
 import BackButton from "../../../components/button/backButton";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../apis/axiosInstance";
-import { CogoData } from "../../../types/cogoData";
 
-type CogoDataList = CogoData[];
-
-export default function SendCogo() {
-  const [userRole, setUserRole] = useState<string>("");
-  const [cogoDataList, setCogoDataList] = useState<CogoDataList>([]);
+export default function CompleteCogo() {
+  const [memoText, setMemoText] = useState<string>(""); // 메모 텍스트 상태 추가
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axiosInstance
-      .get(`/users`)
-      .then((response) => {
-        console.log(response.data.content.role);
-        setUserRole(response.data.content.role);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch user data:", error);
-      });
-    
-    axiosInstance
-      .get(`/applications/status`,{
-        params: "unmatched"
-      })
-      .then((response) => {
-        console.log(response.data.content);
-        setCogoDataList(response.data.content);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch role data:", error);
-      });
-  }, []);
+  // 글자 수를 변경하는 함수
+  const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMemoText(event.target.value);
+  };
 
   const handleDetailButton = () => {
-    navigate("/cogo/send/detail");
+    navigate("/cogo/complete/detail");
   };
 
   return (
