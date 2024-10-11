@@ -12,8 +12,8 @@ const saveRoleToLocalStorage = (role: string) => {
   localStorage.setItem("role", role);
 };
 
-const axiosInstance = axios.create({
-  baseURL: "https://cogo.life/api/v2",
+const authAxiosInstance = axios.create({
+  baseURL: "https://cogo.life",
   headers: {
     "Content-Type": "application/json",
   },
@@ -34,7 +34,7 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
   failedQueue = [];
 };
 
-axiosInstance.interceptors.request.use(
+authAxiosInstance.interceptors.request.use(
   (config) => {
     const token = getTokenFromLocalStorage();
     console.log("로컬스토리지에 토큰 저장: ", token);
@@ -49,7 +49,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
+authAxiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -64,7 +64,7 @@ axiosInstance.interceptors.response.use(
           });
           originalRequest.headers = originalRequest.headers || {}; // headers가 undefined일 수 있으므로 초기화
           originalRequest.headers.Authorization = "Bearer " + token;
-          return await axiosInstance(originalRequest);
+          return await authAxiosInstance(originalRequest);
         } catch (err) {
           return await Promise.reject(err);
         }
@@ -88,13 +88,13 @@ axiosInstance.interceptors.response.use(
           .then(({ data }) => {
             const newToken = data.accessToken;
             setTokenToLocalStorage(newToken);
-            axiosInstance.defaults.headers.Authorization = "Bearer " + newToken;
+            authAxiosInstance.defaults.headers.Authorization = "Bearer " + newToken;
 
             originalRequest.headers = originalRequest.headers || {}; // headers가 undefined일 수 있으므로 초기화
             originalRequest.headers.Authorization = "Bearer " + newToken;
 
             processQueue(null, newToken);
-            resolve(axiosInstance(originalRequest));
+            resolve(authAxiosInstance(originalRequest));
           })
           .catch((err) => {
             processQueue(err, null);
@@ -111,4 +111,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+export default authAxiosInstance;
