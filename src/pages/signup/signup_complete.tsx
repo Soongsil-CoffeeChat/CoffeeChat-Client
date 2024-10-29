@@ -22,7 +22,9 @@ export default function CompleteStep() {
 
   const handleClear = () => {
     completeSignup(part, club);
-    navigate("/");
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem("token", "");
+    navigate("/login");
   };
 
   const completeSignup = async (part: string, club: string) => {

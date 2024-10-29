@@ -221,6 +221,7 @@ export const MemoText = styled.textarea`
   border-radius: 1.3rem;
   border: none;
   padding: 2rem;
+  resize: none;
   &:focus {
     outline: none;
     box-shadow: none;

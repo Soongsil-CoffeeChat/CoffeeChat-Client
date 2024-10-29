@@ -5,6 +5,7 @@ import {
   Container,
   Header,
   BodyContainer,
+  HalfFixedButton,
 } from "../../../components/global.styles";
 import BackButton from "../../../components/button/backButton";
 import authAxiosInstance from "../../../apis/authAxiosInstance";
@@ -346,7 +347,9 @@ export default function MyProfile() {
                 />
               </S.InputWrapper>
               <div>
-                <S.CertTime>{formatTime(phoneTimer)}</S.CertTime>
+                {!isPhoneCodeVerified && (
+                  <S.CertTime>{formatTime(phoneTimer)}</S.CertTime>
+                )}
                 <S.CertButton
                   onClick={verifyPhoneCode}
                   style={
@@ -410,7 +413,9 @@ export default function MyProfile() {
                 />
               </S.InputWrapper>
               <div>
-                <S.CertTime>{formatTime(emailTimer)}</S.CertTime>
+                {!isEmailCodeVerified && (
+                  <S.CertTime>{formatTime(emailTimer)}</S.CertTime>
+                )}
                 <S.CertButton
                   onClick={verifyEmailCode}
                   style={
@@ -426,24 +431,17 @@ export default function MyProfile() {
             </S.EachInput>
           )}
         </S.InputContainer>
-
-        {/* 버튼 */}
-        {name !== "" || email !== "" || phoneNumber !== "" || !isEditing ? (
-          <S.Button
-            onClick={isEditing ? handleEditBtn : toggleEditMode}
-            style={
-              isSaveDisabled
-                ? { color: "black", backgroundColor: "white", border: "1px solid black" }
-                : {}
-            }
-            disabled={isSaveDisabled}
-          >
-            {isEditing ? "저장하기" : "수정하기"}
-          </S.Button>
-        ) : (
-          <></>
-        )}
       </BodyContainer>
+      {name !== "" || email !== "" || phoneNumber !== "" || !isEditing ? (
+        <HalfFixedButton
+          onClick={isEditing ? handleEditBtn : toggleEditMode}
+          disabled={isSaveDisabled}
+        >
+          {isEditing ? "저장하기" : "수정하기"}
+        </HalfFixedButton>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 }

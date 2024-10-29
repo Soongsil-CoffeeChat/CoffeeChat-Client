@@ -81,12 +81,28 @@ export default function MentorDetails() {
             </S.ProfileTagContainer>
           </S.ProfileContainer>
           <S.IntroduceContainer>
-            <S.IntroduceTitle>{formatTextWithLineBreaks(mentorData.introductionTitle)}</S.IntroduceTitle>
-            <S.IntroduceAnswer>{formatTextWithLineBreaks(mentorData.introductionDescription)}</S.IntroduceAnswer>
+            <S.IntroduceTitle>
+              {mentorData.introductionTitle
+                ? formatTextWithLineBreaks(mentorData.introductionTitle)
+                : `안녕하세요`}
+            </S.IntroduceTitle>
+            <S.IntroduceAnswer>
+              {mentorData.introductionDescription
+                ? formatTextWithLineBreaks(mentorData.introductionDescription)
+                : `${mentorData.part} 파트 멘토, ${mentorData.mentorName}입니다`}
+            </S.IntroduceAnswer>
             <S.IntroduceTitle>이런 분야에서 멘토링이 가능해요</S.IntroduceTitle>
-            <S.IntroduceDescript>{formatTextWithLineBreaks(mentorData.introductionAnswer1)}</S.IntroduceDescript>
+            <S.IntroduceDescript>
+              {mentorData.introductionAnswer1
+                ? formatTextWithLineBreaks(mentorData.introductionAnswer1)
+                : `${mentorData.part} 관련 분야의 멘토링이 가능해요`}
+            </S.IntroduceDescript>
             <S.IntroduceTitle>이런 경험들을 해왔어요</S.IntroduceTitle>
-            <S.IntroduceDescript>{formatTextWithLineBreaks(mentorData.introductionAnswer2)}</S.IntroduceDescript>
+            <S.IntroduceDescript>
+              {mentorData.introductionAnswer2
+                ? formatTextWithLineBreaks(mentorData.introductionAnswer2)
+                : `${mentorData.part} 관련 경험이 있어요`}
+            </S.IntroduceDescript>
           </S.IntroduceContainer>
           <FixedButton onClick={handleApplyBtnClick}>코고 신청하기</FixedButton>
         </S.BodyContainer>

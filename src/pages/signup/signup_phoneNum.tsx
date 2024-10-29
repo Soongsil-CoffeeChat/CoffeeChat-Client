@@ -158,7 +158,9 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
               />
             </S.InputWrapper>
             <div>
-              <S.CertTime>{formatTime()}</S.CertTime>
+                {!isCodeVerified && (
+                  <S.CertTime>{formatTime()}</S.CertTime>
+                )}
               <S.CertButton
                 onClick={verifyCode}
                 style={

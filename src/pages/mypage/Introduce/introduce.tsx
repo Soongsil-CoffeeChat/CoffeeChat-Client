@@ -81,7 +81,7 @@ export default function Introduce() {
     };
 
     axiosInstance
-      .patch(`/mentors/${mentorId}/introductions`, updatedData)
+      .patch(`/mentors/introductions`, updatedData)
       .then((response) => {
         console.log("사용자 정보 업데이트 성공:", response.data);
         setIsEditing(false);
@@ -141,7 +141,7 @@ export default function Introduce() {
         />
         {isEditing && <S.MemoTextLength>{answer1.length}/200</S.MemoTextLength>}
       </S.TextContainer>
-      <S.TextContainer style={{marginBottom: "10rem"}}>
+      <S.TextContainer style={{marginBottom: "12rem"}}>
         <S.MemoTitle>프로젝트나 근무 경험이 있으시다면 알려주세요</S.MemoTitle>
         <S.MemoText
           placeholder={isEditing ? "내용을 입력해주세요": "" }
