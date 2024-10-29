@@ -113,6 +113,35 @@ export const StyledCalendarWrapper = styled.div`
       border-radius: 5rem;
     }
   }
+    /* 날짜만 선택되고 시간대는 선택되지 않은 경우 */
+  .date-selected-no-time abbr {
+    display: flex;
+    width: 3.6rem;
+    height: 3.6rem;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-weight: 600;
+    border: 1px solid black;
+    border-radius: 5rem;
+    color: black !important;
+    background-color: transparent !important;
+  }
+
+  /* 시간대가 선택된 날짜 */
+  .date-selected-with-time abbr {
+    display: flex;
+    width: 3.6rem;
+    height: 3.6rem;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-weight: 600;
+    border-radius: 5rem;
+    color: white !important;
+    background-color: black !important;
+  }
+
 `;
 
 // 캘린더를 불러옴
@@ -134,8 +163,23 @@ export const Title = styled.h1`
 `;
 
 export const Subtitle = styled.p`
-  font-size: 1.6rem;
-  color: #aeaeb2;
+  font-size: 1.8rem;
+  color: #5e5e5e;
+  margin: 0 0 -0.5rem 0.5rem;
+`;
+
+export const CircleSubtitle = styled.p`
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: white;
+  background-color: black;
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   margin-bottom: 1rem;
 `;
 
@@ -176,10 +220,6 @@ export const ButtonContainer = styled.div`
   column-gap: 1.5rem;
   margin-top: 1rem;
   margin-bottom: 2rem;
-
-  & > :nth-last-child(1):nth-child(odd) {
-    grid-column: span 2; // 마지막 요소가 가득 차도록 설정
-  }
 `;
 
 export const TimeButton = styled.button<{ isSelected?: boolean }>`
@@ -262,3 +302,9 @@ export const NavFirst = styled(Link)`
   text-decoration: underline;
   cursor: pointer;
 `;
+
+export const NoDatesMessage = styled.p`
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 500;
+`

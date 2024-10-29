@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as S from "./search.styles";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import LeftButton from "../../assets/LeftButton.svg";
-import RightButton from "../../assets/RightButton.svg";
-import axios from "axios";
-import axiosInstance from "../../apis/axiosInstance";
 import {
   Container,
   Header,
-  Subtitle,
-  Title,
 } from "../../components/global.styles";
-import Logo from "../../assets/Logo.svg";
 import SearchIcon from "../../assets/Search.svg";
 import BackButton from "../../components/button/backButton";
 import TagDelete from "../../assets/TagDelete.svg";
@@ -23,7 +16,6 @@ export default function Search() {
   const [part, setPart] = useRecoilState(partSearchState);
   const [club, setClub] = useRecoilState(clubSearchState);
 
-  // 페이지가 로드될 때 localStorage에서 part와 club 값을 불러옴
   useEffect(() => {
     setPart("");
     setClub("");
@@ -33,7 +25,14 @@ export default function Search() {
     if (club === "" && part === "") {
       alert("검색할 파트나 동아리를 선택해주세요.");
     } else {
-      navigate("/search/searchview");
+      const params = new URLSearchParams();
+      if (part !== "") {
+        params.append("part", part);
+      }
+      if (club !== "") {
+        params.append("club", club);
+      }
+      navigate(`/search/searchview?${params.toString()}`);
     }
   };
 
@@ -43,6 +42,14 @@ export default function Search() {
 
   const deleteClubTag = () => {
     setClub("");
+  };
+
+  const togglePart = (option: string) => {
+    setPart(part === option ? "" : option);
+  };
+
+  const toggleClub = (option: string) => {
+    setClub(club === option ? "" : option);
   };
 
   return (
@@ -71,14 +78,14 @@ export default function Search() {
           />
         </S.SearchContainer>
       </Header>
-      <S.BodyContainer>
+      <S.BodyContainer style={{padding: "0", gap: "0", margin: "0"}}>
         <S.ButtonTitle>파트</S.ButtonTitle>
         <S.ButtonContainer>
-          {["FE", "BE", "기획", "디자인"].map((option) => (
+          {["FE", "BE", "PM", "DESIGN"].map((option) => (
             <S.OptionButton
               key={option}
               isSelected={part === option}
-              onClick={() => setPart(option)}
+              onClick={() => togglePart(option)}
             >
               {option}
             </S.OptionButton>
@@ -90,7 +97,7 @@ export default function Search() {
             <S.OptionButton
               key={option}
               isSelected={club === option}
-              onClick={() => setClub(option)}
+              onClick={() => toggleClub(option)}
             >
               {option}
             </S.OptionButton>

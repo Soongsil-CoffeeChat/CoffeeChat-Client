@@ -21,8 +21,8 @@ const Navbar = () => {
           코고
         </S.NavTitle>
       </S.NavItem>
-      <S.NavItem to="/mypage" $active={location.pathname === "/my"}>
-        <MyIcon fill={location.pathname === "/my" ? "#ffffff" : "#626262"} />
+      <S.NavItem to="/mypage" $active={location.pathname === "/mypage"}>
+        <MyIcon fill={location.pathname === "/mypage" ? "#ffffff" : "#626262"} />
         <S.NavTitle>
           MY
         </S.NavTitle>

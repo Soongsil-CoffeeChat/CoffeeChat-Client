@@ -1,40 +1,64 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
-export const ModalBackdrop = styled.div`
-  display: flex;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 `;
 
-export const ModalContainer = styled.div`
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 15px;
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+export const AnimatedContainer = styled.div<{ fadeIn?: boolean; fadeOut?: boolean }>`
+  animation: ${({ fadeIn: fadeInProp, fadeOut: fadeOutProp }) =>
+    fadeInProp
+      ? css`${fadeIn} 0.5s forwards`
+      : fadeOutProp
+      ? css`${fadeOut} 0.5s forwards`
+      : "none"};
+  
+  position: absolute;
+  top: 0;
+  max-width: 520px;
+  height: 100%;
+
+  z-index: ${({ fadeOut: fadeOutProp }) => (fadeOutProp ? 2 : 1)};
+`;
+
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  max-width: 520px;
+  height: 90%;
 `;
 
-export const ModalHeader = styled.div`
-  text-align: center;
-  font-size: 20px;
-  margin: 0;
-  margin-bottom: 20px;
+export const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 90%;
 `;
 
-export const HeartImage = styled.img`
-  width: 150px;
+export const Logo = styled.img`
+  width: 35%;
   height: auto;
-  margin-bottom: 25px;
+  margin-bottom: 10rem;
 `;
 
 export const GoogleButton = styled.img`
+  width: 100%;
   cursor: pointer;
 `;

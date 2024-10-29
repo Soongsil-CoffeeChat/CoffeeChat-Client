@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   clubState,
   nameState,
@@ -18,15 +18,23 @@ import BackButton from "../../components/button/backButton";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Arrow from "../../assets/ArrowRight.svg"
+import axiosInstance from "../../apis/axiosInstance";
 
 export default function Cogo() {
-  const [memoText, setMemoText] = useState<string>(""); // 메모 텍스트 상태 추가
+  const [userRole, setUserRole] = useState<string>("");
   const navigate = useNavigate();
 
-  // 글자 수를 변경하는 함수
-  const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMemoText(event.target.value);
-  };
+  useEffect(() => {
+    axiosInstance
+      .get(`/users`)
+      .then((response) => {
+        console.log(response.data.content.role);
+        setUserRole(response.data.content.role);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user data:", error);
+      });
+  }, []);
 
   const handleSendButton = () => {
     navigate("/cogo/send");
@@ -48,7 +56,7 @@ export default function Cogo() {
       </S.BodyContainer>
       <S.MenuContainer>
         <S.MenuWrapper onClick={handleSendButton}>
-          <S.MenuText>받은 코고</S.MenuText>
+          <S.MenuText>{userRole === "MENTOR" ? "받은" : "보낸"} 코고</S.MenuText>
           <S.ArrowImg src={Arrow} alt="Arrow" />
         </S.MenuWrapper>
         <S.Hr />

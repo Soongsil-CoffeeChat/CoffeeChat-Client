@@ -39,7 +39,7 @@ export default function SendCogoDetail() {
         <BackButton />
       </Header>
       <S.BodyContainer>
-        <Title>김지은님이 코고신청을 보냈어요</Title>
+        <Title>김지은님께 보낸 코고입니다.</Title>
         <Subtitle>COGO를 하면서 많은 성장을 기원해요!</Subtitle>
       </S.BodyContainer>
       <S.MenuContainer>
@@ -48,48 +48,6 @@ export default function SendCogoDetail() {
         </S.MemoText>
       </S.MenuContainer>
       <S.TimeContainer>
-        <S.TimeTable>
-          <S.Date>12/28</S.Date>
-          <S.TimeWrapper>
-            {options.map((option) => (
-              <S.Time
-                key={option}
-                isSelected={time === option}
-                onClick={() => setTime(option)}
-              >
-                {option}
-              </S.Time>
-            ))}
-          </S.TimeWrapper>
-        </S.TimeTable>
-        <S.TimeTable>
-          <S.Date>12/28</S.Date>
-          <S.TimeWrapper>
-            {options.map((option) => (
-              <S.Time
-                key={option}
-                isSelected={time === option}
-                onClick={() => setTime(option)}
-              >
-                {option}
-              </S.Time>
-            ))}
-          </S.TimeWrapper>
-        </S.TimeTable>
-        <S.TimeTable>
-          <S.Date>12/28</S.Date>
-          <S.TimeWrapper>
-            {options.map((option) => (
-              <S.Time
-                key={option}
-                isSelected={time === option}
-                onClick={() => setTime(option)}
-              >
-                {option}
-              </S.Time>
-            ))}
-          </S.TimeWrapper>
-        </S.TimeTable>
         <S.TimeTable>
           <S.Date>12/28</S.Date>
           <S.TimeWrapper>

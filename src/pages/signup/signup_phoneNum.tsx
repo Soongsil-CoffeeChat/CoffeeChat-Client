@@ -13,8 +13,8 @@ interface PhoneNumberStepProps {
 export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
   const [phoneNumber, setPhoneNumber] = useRecoilState(phoneNumberState);
   const [verificationCode, setVerificationCode] = useState("");
-  const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [code, setCode] = useState("");
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [isCodeVerified, setIsCodeVerified] = useState(false);
   const [timer, setTimer] = useState(180);
 
@@ -25,11 +25,11 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
     }
   };
 
-  const handleVerificationCodeChange = (
+  const handleCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.value.length <= 4) {
-      setVerificationCode(e.target.value);
+      setCode(e.target.value);
     }
   };
 
@@ -49,7 +49,6 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
   // 인증번호 전송 함수
   const sendVerification = async (phoneNumber: string) => {
     if (phoneNumber.length < 10) return;
-    setIsVerificationSent(true);
     console.log(phoneNumber);
 
     try {
@@ -59,9 +58,12 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
         },
       });
       if (response.status === 200) {
-        console.log(response.data);
+        console.log(response.data.content);
+        setVerificationCode(response.data.content.verificationCode);
+        setIsVerificationSent(true);
       }
     } catch (error) {
+      setIsVerificationSent(false);
       console.error("전화번호 인증 실패: ", error);
       alert("전화번호를 다시 입력해주세요.");
     }
@@ -70,14 +72,18 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
   // 인증번호 재전송 함수
   const reSendVerification = () => {
     setTimer(180);
-    setVerificationCode("");
+    setCode("");
     sendVerification(phoneNumber);
   };
 
   // 인증번호 확인 함수
   const verifyCode = () => {
-    // 인증번호 확인하는 로직
-    setIsCodeVerified(true);
+    if (code === verificationCode) {
+      setIsCodeVerified(true);
+    } else {
+      setIsCodeVerified(false);
+      alert("인증번호가 일치하지 않습니다.");
+    }
   };
 
   //타이머 함수
@@ -146,21 +152,23 @@ export default function PhoneNumStep({ goToStep }: PhoneNumberStepProps) {
               <S.InputText>인증번호</S.InputText>
               <S.Input
                 type="tel"
-                value={verificationCode}
-                onChange={handleVerificationCodeChange}
+                value={code}
+                onChange={handleCodeChange}
                 placeholder="0000"
               />
             </S.InputWrapper>
             <div>
-              <S.CertTime>{formatTime()}</S.CertTime>
+                {!isCodeVerified && (
+                  <S.CertTime>{formatTime()}</S.CertTime>
+                )}
               <S.CertButton
                 onClick={verifyCode}
                 style={
-                  verificationCode.length === 4
+                  code.length === 4
                     ? { color: "white", backgroundColor: "black" }
                     : {}
                 }
-                disabled={verificationCode.length < 4}
+                disabled={code.length < 4}
               >
                 확인
               </S.CertButton>

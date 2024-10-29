@@ -196,49 +196,8 @@ function Main() {
           ))}
         </S.HeaderButtonContainer>
         <S.Hr />
-        <S.HeaderTitleContainer>
-          <Title>어떤 선배가 있을까요?</Title>
-          <Subtitle>파트별 코고 선배 알아보기</Subtitle>
-        </S.HeaderTitleContainer>
       </Header>
       <S.BodyContainer>
-        <S.ProfileCard>
-            <S.ProfileImg
-              src={
-                mentorData?.[currentIndex]?.picture
-                  ? mentorData[currentIndex].picture.slice(1, -1)
-                  : "https://picsum.photos/250/250"
-              }
-            />
-          <S.ProfileBottomContainer>
-            <S.ProfileIcon>동아리</S.ProfileIcon>
-            <S.ProfileIcon>{activeButtons}</S.ProfileIcon>
-            <S.ProfileIcon>Lead</S.ProfileIcon>
-          </S.ProfileBottomContainer>
-        </S.ProfileCard>
-        <S.BodyIntroduce>
-          <S.BodyIntroduceText>
-            {!mentorData ||
-            (Array.isArray(mentorData) && mentorData.length === 0)
-              ? null
-              : mentorData[currentIndex].mentorName}
-          </S.BodyIntroduceText>
-          <S.ApplyButton
-            onClick={() => {
-              navigate("/timeselect", {
-                state: {
-                  key:
-                    !mentorData ||
-                    (Array.isArray(mentorData) && mentorData.length === 0)
-                      ? null
-                      : mentorData[currentIndex].username,
-                },
-              });
-            }}
-          >
-            코고 신청하기
-          </S.ApplyButton>
-        </S.BodyIntroduce>
       </S.BodyContainer>
     </Container>
   );
