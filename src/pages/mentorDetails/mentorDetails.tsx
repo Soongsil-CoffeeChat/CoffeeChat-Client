@@ -44,7 +44,7 @@ export default function MentorDetails() {
   }, []);
 
   const handleApplyBtnClick = () => {
-    navigate("/applycogotime");
+    navigate(`/applycogotime/${mentorid}`);
   };
 
   const formatTextWithLineBreaks = (text: string) => {
