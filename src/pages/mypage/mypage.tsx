@@ -47,6 +47,17 @@ export default function MyPage() {
     navigate("/login");
   };
 
+  const handleWithdrawal = async () => {
+    try {
+      const response = await axiosInstance.delete("/users");
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      alert("회원 탈퇴가 완료되었습니다.");
+      navigate("/login");
+    }
+  };
+
   const handleMyProfileButton = () => {
     navigate("/mypage/myprofile");
   };
@@ -210,6 +221,11 @@ export default function MyPage() {
           <S.Hr />
           <S.MenuWrapper onClick={handleLogout}>
             <S.MenuText>로그아웃</S.MenuText>
+            <S.ArrowImg src={Arrow} alt="Arrow" style={{ opacity: "0" }} />
+          </S.MenuWrapper>
+          <S.Hr />
+          <S.MenuWrapper onClick={handleWithdrawal}>
+            <S.MenuText>탈퇴하기</S.MenuText>
             <S.ArrowImg src={Arrow} alt="Arrow" style={{ opacity: "0" }} />
           </S.MenuWrapper>
         </S.MenuContainer>
