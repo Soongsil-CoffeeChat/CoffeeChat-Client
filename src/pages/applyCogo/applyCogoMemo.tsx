@@ -8,11 +8,12 @@ import {
   Title,
 } from "../../components/global.styles";
 import BackButton from "../../components/button/backButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ApplyCogoMemo() {
   const [memoText, setMemoText] = useState<string>(""); // 메모 텍스트 상태
   const navigate = useNavigate();
+  const { mentorid } = useParams();
 
   // 글자 수를 변경하는 함수
   const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -24,7 +25,7 @@ export default function ApplyCogoMemo() {
     console.log(memoText);
     localStorage.setItem("memoText", memoText);
 
-    navigate("/applyCogoComplete");
+    navigate(`/applyCogoComplete/${mentorid}`);
   };
 
   return (

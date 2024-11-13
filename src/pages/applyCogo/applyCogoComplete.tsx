@@ -14,21 +14,20 @@ import {
 } from "../../components/global.styles";
 import BackButton from "../../components/button/backButton";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Coffee from "../../assets/Coffee.svg";
 import axiosInstance from "../../apis/axiosInstance"; // axiosInstance 추가
 
 export default function ApplyCogoComplete() {
   const navigate = useNavigate();
+  const { mentorid } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
 
   const handleNextButton = async () => {
     // 로딩 상태 시작
     setIsLoading(true);
-
-    try {
       // localStorage에서 데이터 불러오기
-      const mentorIdStr = localStorage.getItem("mentorId");
+      const mentorIdStr = mentorid
       const possibleDateIdStr = localStorage.getItem("possible_date_id");
       const memoText = localStorage.getItem("memoText");
 
@@ -50,6 +49,8 @@ export default function ApplyCogoComplete() {
         return;
       }
 
+    try {
+
       // API 요청을 위한 페이로드 준비
       const payload = {
         mentorId: mentorId,
@@ -57,14 +58,14 @@ export default function ApplyCogoComplete() {
         memo: memoText,
       };
 
-      console.log(payload)
+      console.log(payload);
       // API 요청 보내기 (예시 엔드포인트 사용)
       const response = await axiosInstance.post("/applications", payload);
 
       // 요청 성공 시 처리
       console.log("API 응답:", response.data);
       alert("COGO 신청이 완료되었습니다!");
-      
+
       // 필요 시 localStorage 데이터 정리
       localStorage.removeItem("mentorId");
       localStorage.removeItem("possible_date_id");
@@ -90,9 +91,9 @@ export default function ApplyCogoComplete() {
         <S.Title>멘토님과의 매칭이 곧 이루어질 예정이에요!</S.Title>
         <S.Subtitle>COGO를 하면서 많은 성장을 기원해요!</S.Subtitle>
         <S.SecondContainer>
-          <S.CoffeeImg src={Coffee} alt="Coffee"/>
-          <S.CompleteButton 
-            onClick={handleNextButton} 
+          <S.CoffeeImg src={Coffee} alt="Coffee" />
+          <S.CompleteButton
+            onClick={handleNextButton}
             disabled={isLoading} // 로딩 중 버튼 비활성화
           >
             {isLoading ? "처리 중..." : "코고 신청 완료하기"}

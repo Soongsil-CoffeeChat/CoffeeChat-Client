@@ -249,7 +249,8 @@ export default function MyProfile() {
     axiosInstance
       .patch("/users", updatedData)
       .then((response) => {
-        console.log("사용자 정보 업데이트 성공:", response.data);
+        console.log(updatedData);
+        console.log("사용자 정보 업데이트 성공:", response.data.content);
         setIsEditing(false); // 저장 후 편집 모드 종료
         alert("정보가 성공적으로 저장되었습니다.");
         setUserData(response.data.content); // 서버에서 반환한 최신 데이터로 업데이트

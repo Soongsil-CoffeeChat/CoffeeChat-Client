@@ -50,7 +50,7 @@ export default function TimeSelect() {
 
   const fetchPossibleDates = async () => {
     try {
-      const response = await axiosInstance.get(`/possibleDates/${mentorId}`);
+      const response = await axiosInstance.get(`/possibleDates`);
       console.log("possibleDates get: ", response.data.content);
       setPossibleDates(response.data.content || []);
     } catch (error) {
@@ -61,22 +61,8 @@ export default function TimeSelect() {
   };
 
   useEffect(() => {
-    axiosInstance
-      .get(`/users`)
-      .then((response) => {
-        console.log(response.data.content);
-        setMentorId(response.data.content.mentorId);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch user data:", error);
-      });
+    fetchPossibleDates();
   }, []);
-
-  useEffect(() => {
-    if (mentorId) {
-      fetchPossibleDates();
-    }
-  }, [mentorId]);
 
   const handleDateChange = (value: Date) => {
     const dateString = moment(value).format("YYYY-MM-DD");

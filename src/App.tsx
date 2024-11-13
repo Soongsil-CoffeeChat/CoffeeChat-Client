@@ -62,9 +62,9 @@ function AppContent() {
         <Route path="/mypage/timeselect" element={<TimeSelect />} />
         <Route path="/search" element={<Search />} />
         <Route path="/mentor-detail/:mentorid" element={<MentorDetails />} />
-        <Route path="/applycogotime" element={<ApplyCogoTime />} />
-        <Route path="/applycogomemo" element={<ApplyCogoMemo />} />
-        <Route path="/applycogocomplete" element={<ApplyCogoComplete />} />
+        <Route path="/applycogotime/:mentorid" element={<ApplyCogoTime />} />
+        <Route path="/applycogomemo/:mentorid" element={<ApplyCogoMemo />} />
+        <Route path="/applycogocomplete/:mentorid" element={<ApplyCogoComplete />} />
         <Route path="/cogo" element={<Cogo />} />
         <Route path="/cogo/send" element={<SendCogo />} />
         <Route path="/cogo/send/detail" element={<SendCogoDetail />} />

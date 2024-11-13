@@ -8,7 +8,7 @@ import {
 } from "../../components/global.styles";
 import BackButton from "../../components/button/backButton";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../apis/axiosInstance";
 
 type PossibleDate = {
@@ -42,26 +42,13 @@ export default function ApplyCogoTime() {
   );
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [timesForDate, setTimesForDate] = useState<string[]>([]);
-  const [mentorId, setMentorId] = useState<number>(0);
+  const { mentorid } = useParams();
   const [possibleDates, setPossibleDates] = useState<PossibleDatesData>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axiosInstance
-      .get(`/users`)
-      .then((response) => {
-        console.log(response.data.content);
-        setMentorId(response.data.content.mentorId);
-        localStorage.setItem("mentorId", mentorId.toString());
-      })
-      .catch((error) => {
-        console.error("멘토아이디 조회 실패: ", error);
-      });
-  }, []);
-
   const fetchPossibleDates = async () => {
     try {
-      const response = await axiosInstance.get(`/possibleDates/${mentorId}`);
+      const response = await axiosInstance.get(`/possibleDates/${mentorid}`);
       console.log("possibleDates get: ", response.data.content);
       setPossibleDates(response.data.content || []);
     } catch (error) {
@@ -72,10 +59,8 @@ export default function ApplyCogoTime() {
   };
 
   useEffect(() => {
-    if (mentorId) {
       fetchPossibleDates();
-    }
-  }, [mentorId]);
+  }, []);
 
   // selectedDate 또는 possibleDates가 변경될 때 timesForDate 업데이트
   useEffect(() => {
@@ -163,13 +148,15 @@ export default function ApplyCogoTime() {
       console.warn("No matching possible_date_id found.");
     }
 
-    navigate("/applyCogoMemo", {
+    navigate(`/applyCogoMemo/${mentorid}`, {
       state: {
         selectedDate: formattedSelectedDate,
         selectedTime,
       },
     });
   };
+
+  console.log(selectedDate, selectedTime);
 
   return (
     <S.Container>

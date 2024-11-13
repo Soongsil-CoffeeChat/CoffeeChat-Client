@@ -52,7 +52,7 @@ export default function MyPage() {
       const response = await axiosInstance.delete("/users");
       console.log(response.data);
     } catch (error) {
-      console.error('Error deleting account:', error);
+      console.error("Error deleting account:", error);
       alert("회원 탈퇴가 완료되었습니다.");
       navigate("/login");
     }
@@ -74,7 +74,6 @@ export default function MyPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // 클라이언트 측에서 파일 크기 및 형식 검증
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
     if (!allowedTypes.includes(file.type)) {
       alert("이미지 형식만 업로드할 수 있습니다. (jpeg, jpg, png)");
@@ -82,16 +81,14 @@ export default function MyPage() {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      // 5MB 제한
       alert("파일 크기가 너무 큽니다. 5MB 이하의 이미지를 선택해주세요.");
       return;
     }
 
-    setIsUploading(true); // 업로드 시작
-    setUploadError(""); // 기존 에러 초기화
+    setIsUploading(true);
+    setUploadError("");
 
     try {
-      // 1단계: S3로 이미지 업로드
       const directory = "v2";
       const formData = new FormData();
       formData.append("image", file);
@@ -109,19 +106,14 @@ export default function MyPage() {
       console.log("S3 Response:", s3Response.data);
 
       if (s3Response.status === 201) {
-        // S3 업로드 성공, 응답에서 이미지 URL 추출
-        // 실제 응답 구조에 맞게 수정 필요
         let imageUrl: string | undefined;
 
         if (s3Response.data.content.savedUrl) {
           imageUrl = s3Response.data.content.savedUrl;
-        } else if (s3Response.data.content.additionalProp1) {
-          imageUrl = s3Response.data.content.additionalProp1;
         } else {
           throw new Error("이미지 URL을 받아오지 못했습니다.");
         }
 
-        // 2단계: 사용자 프로필에 이미지 URL 업데이트
         const pictureResponse = await axiosInstance.put(
           "/users/picture",
           imageUrl
@@ -130,7 +122,7 @@ export default function MyPage() {
         if (pictureResponse) {
           console.log(
             "프로필 이미지 업데이트 성공:",
-            pictureResponse.data.content.picture.slice(1,-1)
+            pictureResponse.data.content.picture.slice(1, -1)
           );
           const imageUrl = pictureResponse.data.content.picture;
           setUserData((prevData) =>
@@ -156,6 +148,7 @@ export default function MyPage() {
     }
   };
 
+  console.log("유저정보", userData?.picture);
   return (
     <Container>
       <input
@@ -168,7 +161,9 @@ export default function MyPage() {
       />
 
       <S.HeaderContainer>
-        <S.MenotorName>{userData?.name} 멘토님</S.MenotorName>
+        <S.MenotorName>
+          {userData?.name} {userData?.role === "MENTEE" ? "멘티님" : "멘토님"}
+        </S.MenotorName>
       </S.HeaderContainer>
       <S.BodyContainer>
         <S.ProfileContainer>
@@ -180,7 +175,7 @@ export default function MyPage() {
               <>
                 <S.ProfileLayer />
                 <S.ProfileImg
-                  src={userData.picture.slice(1,-1)}
+                  src={userData.picture.slice(1, -1)}
                   alt="Profile"
                 />
               </>
