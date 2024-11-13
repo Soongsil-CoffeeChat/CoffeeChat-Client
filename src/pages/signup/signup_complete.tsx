@@ -20,14 +20,7 @@ export default function CompleteStep() {
   const club = useRecoilValue(clubState);
   const navigate = useNavigate();
 
-  const handleClear = () => {
-    completeSignup(part, club);
-    localStorage.setItem("isLoggedIn", "false");
-    localStorage.setItem("token", "");
-    navigate("/login");
-  };
-
-  const completeSignup = async (part: string, club: string) => {
+  const handleClear = async () => {
     const mentorData = {
       part: part,
       club: club,
@@ -45,10 +38,13 @@ export default function CompleteStep() {
         console.log(response.data);
       }
       alert("회원가입이 완료되었습니다.");
+      localStorage.setItem("isLoggedIn", "false");
+      localStorage.setItem("token", "");
+      navigate("/login");
     } catch (error) {
       console.error("회원가입 실패: ", error);
       alert("회원가입에 실패하셨습니다. 다시 처음부터 회원가입해주세요.");
-      // navigate("/login");
+      navigate("/login");
     }
   };
   return (
